@@ -1,0 +1,5 @@
+---
+
+- name: Include ome.redis role
+  ansible.builtin.include_role:
+    name: ome.redis

@@ -1,0 +1,81 @@
+---
+## create the searchengine and elasticsearch folders
+
+- name: Create app top level directory
+  become: yes
+  ansible.builtin.file:
+    path: "{{ apps_folder }}/searchengine"
+    recurse: yes
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Create elasticsearch directory
+  become: yes
+  ansible.builtin.file:
+    path: "{{ apps_folder }}/searchengine/elasticsearch"
+    state: directory
+    # User id in elasticsearch Docker image
+    owner: 1000
+    group: root
+    mode: 0755
+
+- name: Create elasticsearch certs folder
+  become: yes
+  ansible.builtin.file:
+    path: "{{ apps_folder }}/searchengine/elasticsearch/certs"
+    state: directory
+    # User id in elasticsearch Docker image
+    owner: 1000
+    group: root
+    mode: 0755
+
+
+- name: Create elasticsearch main nodes directories
+  become: yes
+  ansible.builtin.file:
+    path: "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}"
+    state: directory
+    # User id in elasticsearch Docker image
+    owner: 1000
+    group: root
+    mode: 0755
+  with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+
+- name: Create elasticsearch logs directory
+  become: yes
+  ansible.builtin.file:
+    path: "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}/logs"
+    state: directory
+    # User id in elasticsearch Docker image
+    owner: 1000
+    group: root
+    mode: 0755
+  with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+
+- name: Create elasticsearch data directory
+  become: yes
+  ansible.builtin.file:
+    path: "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}/data"
+    state: directory
+    # User id in elasticsearch Docker image
+    owner: 1000
+    group: root
+    mode: 0755
+  with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+
+- name: deploy elasticsearch cluster
+  ansible.builtin.import_tasks: elasticsearch.yml
+
+- name: deploy nginx for the search engine
+  import_task: searchengine_nginx.yml
+
+- name: deploy redis
+  ansible.builtin.import_tasks: redis_deployment.yml
+
+- name: deploy searchengine
+  ansible.builtin.ansible.builtin.import_tasks: searchengine.yml
+
+
+
