@@ -69,7 +69,8 @@
   ansible.builtin.import_tasks: elasticsearch.yml
 
 - name: deploy nginx for the search engine
-  import_task: searchengine_nginx.yml
+  ansible.builtin.import_tasks: searchengine_nginx.yml
+
 
 - name: deploy redis
   ansible.builtin.import_tasks: redis_deployment.yml
