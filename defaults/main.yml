@@ -27,4 +27,7 @@ REDIS_URL: 127.0.0.1
 ASYNCHRONOUS_SEARCH: true
 CACHE_FOLDER: /etc/searchengine/cachedata
 DATA_DUMP_FOLDER: /data/data_dump/
-DEFAULT_DATASOURCE: idr
+DEFAULT_DATASOURCE: data_source
+elasticsearch_nodes: [ ]
+instances_nodes: []
+instances: {}
