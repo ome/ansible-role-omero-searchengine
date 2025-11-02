@@ -10,7 +10,7 @@ lint: |
     ansible-lint
     flake8
 platforms:
-  - name: omero-ms-rockylinux
+  - name: omero-searchengine-rockylinux
     image: eniocarboni/docker-rockylinux-systemd:9
     command: /sbin/init
     privileged: true
