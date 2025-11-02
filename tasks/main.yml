@@ -37,7 +37,6 @@
     group: root
     mode: 0755
 
-
 - name: Create elasticsearch main nodes directories
   become: yes
   ansible.builtin.file:
@@ -77,12 +76,10 @@
 - name: deploy nginx for the search engine
   ansible.builtin.import_tasks: searchengine_nginx.yml
 
-
 - name: deploy redis
   ansible.builtin.import_tasks: redis_deployment.yml
 
 - name: deploy searchengine
   ansible.builtin.import_tasks: searchengine.yml
-
 
 
