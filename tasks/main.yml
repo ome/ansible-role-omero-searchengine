@@ -1,11 +1,15 @@
 ---
 ## create the searchengine and elasticsearch folders
 
-- name: Ensure python3-requests is installed
-  ansible.builtin.package:
-    name: python3-requests
-    state: present
-  become: yes
+- name:  Import ome.docker role
+  ansible.builtin.import_role:
+    name: ome.docker
+
+#- name: Ensure python3-requests is installed
+#  ansible.builtin.package:
+#    name: python3-requests
+#    state: present
+#  become: yes
 
 - name: Create app top level directory
   become: yes
