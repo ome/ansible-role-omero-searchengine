@@ -20,7 +20,8 @@
 
 - name: Create docker network
   become: yes
-  ansible_python_interpreter: /usr/bin/python3
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   community.docker.docker_network:
     name: searchengine-net
     ipam_config:
