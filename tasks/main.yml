@@ -7,6 +7,12 @@
     state: present
   become: yes
 
+- name: Ensure sysctl is present
+  package:
+    name: procps-ng
+    state: present
+  become: true
+
 - name:  Import ome.docker role
   ansible.builtin.import_role:
     name: ome.docker
