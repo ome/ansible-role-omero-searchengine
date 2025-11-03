@@ -17,6 +17,10 @@
   ansible.builtin.import_role:
     name: ome.docker
 
+- name:  Import ome.nginx role
+  ansible.builtin.include_role:
+    name: ome.nginx
+
 - name: Create app top level directory
   become: yes
   ansible.builtin.file:
