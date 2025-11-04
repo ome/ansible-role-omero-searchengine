@@ -49,12 +49,15 @@
     volumes:
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/certs"
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
+    changed_when: false
+
 
 - name: Wait for CA file
   ansible.builtin.wait_for:
     path: "{{ apps_folder }}/searchengine/elasticsearch/certs/elastic-ca.p12"
     state: present
   register: check_ca_file_result
+
 
 - name: Show wait CA file result
   debug:
@@ -81,6 +84,8 @@
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/certs"
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
         - /tmp/instances.yaml:/tmp/instances.yaml
+    changed_when: false
+
 
 
 

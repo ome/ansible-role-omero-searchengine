@@ -37,6 +37,8 @@
     owner: root
     group: root
     mode: 0755
+  changed_when: false
+
 
 
 - name: Create elasticsearch directory
@@ -48,6 +50,8 @@
     owner: 1000
     group: root
     mode: 0755
+  changed_when: false
+
 
 - name: Create elasticsearch certs folder
   become: yes
@@ -58,6 +62,8 @@
     owner: 1000
     group: root
     mode: 0755
+  changed_when: false
+
 
 - name: Create elasticsearch main nodes directories
   become: yes
@@ -69,6 +75,8 @@
     group: root
     mode: 0755
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+  changed_when: false
+
 
 - name: Create elasticsearch logs directory
   become: yes
@@ -80,6 +88,8 @@
     group: root
     mode: 0755
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+  changed_when: false
+
 
 - name: Create elasticsearch data directory
   become: yes
@@ -91,6 +101,8 @@
     group: root
     mode: 0755
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+  changed_when: false
+
 
 - name: deploy elasticsearch cluster
   ansible.builtin.import_tasks: elasticsearch.yml
