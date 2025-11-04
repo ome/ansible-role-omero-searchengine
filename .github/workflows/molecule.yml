@@ -10,7 +10,7 @@ on:
 jobs:
 
   list-scenarios:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.listscenarios.outputs.scenarios }}
     steps:
@@ -30,7 +30,7 @@ jobs:
         scenario: ${{fromJson(needs.list-scenarios.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install Ansible & Molecule
@@ -48,6 +48,7 @@ jobs:
       - test
     runs-on: ubuntu-24.04
     steps:
+      - name: Galaxy
       - uses: actions/checkout@v4
       - name: Read the role name
         id: role-name

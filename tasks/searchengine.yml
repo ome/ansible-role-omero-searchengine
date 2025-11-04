@@ -45,7 +45,7 @@
 
 - name: configure elasticsearch backup folder for docker searchengine
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_elasticsearch
     cleanup: True
@@ -56,7 +56,7 @@
 
 - name: configure elasticsearch for docker searchengine
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_elasticsearch
     cleanup: True
@@ -67,7 +67,7 @@
 
 - name: configure database for docker searchengine
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_database
     cleanup: True
@@ -84,7 +84,7 @@
 
 - name: set default data source
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_database
     cleanup: True
@@ -97,7 +97,7 @@
 
 - name: configure IDR_TEST_FILE_URL item
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_IDR_TEST_FILE
     cleanup: True
@@ -108,7 +108,7 @@
 
 - name: configure cache folder  for docker searchengine
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_cache
     cleanup: True
@@ -124,7 +124,7 @@
 
 - name: configure number of cache rows for docker searchengine
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_cache
     cleanup: True
@@ -136,7 +136,7 @@
 
 - name: configure secret key for docker searchengine
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_cache
     cleanup: True
@@ -148,7 +148,7 @@
 
 - name: configure elastics search password
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: elastics_password
     cleanup: True
@@ -162,7 +162,7 @@
 
 - name: Set automatic refreshing the configuration
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: elastics_password
     cleanup: True
@@ -174,7 +174,7 @@
 
 - name: Run docker searchengine
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine
     cleanup: True
@@ -193,7 +193,7 @@
 
 - name: Run docker celery job (Synchronize queries)
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_celery
     cleanup: True
@@ -210,7 +210,7 @@
 
 - name: Run docker searchengine run celery beat
   become: yes
-  docker_container:
+  community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: searchengine_beat
     cleanup: True
