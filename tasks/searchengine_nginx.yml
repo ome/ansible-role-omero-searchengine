@@ -3,7 +3,7 @@
 - name: Include ome.nginx role
   ansible.builtin.include_role:
     name: ome.nginx
-    nginx_keep_default_configs: true
+      - nginx_keep_default_configs: true
 
 - name:  write nginx config
   become: true
