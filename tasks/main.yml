@@ -38,6 +38,7 @@
     group: root
     mode: 0755
 
+
 - name: Create elasticsearch directory
   become: yes
   ansible.builtin.file:
