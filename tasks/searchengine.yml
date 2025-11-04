@@ -113,6 +113,7 @@
     state: started
     volumes:
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+  changed_when: false
 
 - name: configure cache folder  for docker searchengine
   become: yes
@@ -129,6 +130,7 @@
     state: started
     volumes:
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+  changed_when: false
 
 - name: configure number of cache rows for docker searchengine
   become: yes
@@ -141,6 +143,7 @@
     state: started
     volumes:
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+  changed_when: false
 
 - name: configure secret key for docker searchengine
   become: yes
@@ -167,6 +170,7 @@
     state: started
     volumes:
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+  changed_when: false
 
 # automatic refreshing  when configuration change is detected
 
