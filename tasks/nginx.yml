@@ -30,6 +30,7 @@
     image: nginx:latest
     published_ports:
       - "80:80"
+      - "443:443"
     volumes:
       - "{{ apps_folder }}/searchengine/nginx/conf.d/:/etc/nginx/conf.d:ro"
       - "{{ apps_folder }}/searchengine/nginx/log:/var/log/nginx"
