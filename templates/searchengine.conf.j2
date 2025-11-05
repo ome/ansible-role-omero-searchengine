@@ -9,6 +9,12 @@ server {
         proxy_set_header Host $host/searchengine;
     }
 
+    location /
+    {
+     return 200 "Hello, Searchengine-Nginx World!\n";
+
+    }
+
     location /send_file/ {
     internal;
     alias /{{ apps_folder }}/data_dump/;   # real file storage
