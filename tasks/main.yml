@@ -24,10 +24,6 @@
   ansible.builtin.import_role:
     name: ome.docker
 
-- name:  Import ome.nginx role
-  ansible.builtin.import_role:
-    name: ome.nginx
-
 - name: Create app top level directory
   become: yes
   ansible.builtin.file:
@@ -38,7 +34,6 @@
     group: root
     mode: 0755
   changed_when: false
-
 
 
 - name: Create elasticsearch directory
