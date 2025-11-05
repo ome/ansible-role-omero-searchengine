@@ -1,22 +1,31 @@
-
 server {
     listen 8080;
 
-     location /searchengine {
+       location /searchengine {
+       #  default_type text/plain;
+       # return 200 "Hello from Nginx!\n";
 
-        proxy_pass http://0.0.0.0:5577/searchengine;
-        proxy_redirect http://0.0.0.0:5577/searchengine $scheme://$server_name;
+       # proxy_pass http://searchengine_app/searchengine;
+       # proxy_redirect http://searchengine_app/searchengine $scheme://$server_name;
+       # proxy_set_header Host $host/searchengine;
+
+        #proxy_set_header Host $host;
+        #proxy_set_header X-Real-IP $remote_addr;
+        #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #proxy_set_header X-Forwarded-Proto $scheme;i
+
+        proxy_pass http://127.0.0.1:5577/searchengine;
+        proxy_redirect http://127.0.0.1:5577/searchengine $scheme://$server_name;
         proxy_set_header Host $host/searchengine;
+
+        #proxy_pass http://192.168.2.164:5577/searchengine;
+        #proxy_redirect http://192.168.2.164:5577/searchengine $scheme://$server_name;
+        #proxy_set_header Host $host/searchengine;
+
+
     }
-
-    location /
-    {
-     return 200 "Hello, Searchengine-Nginx World!\n";
-
-    }
-
     location /send_file/ {
     internal;
-    alias /{{ apps_folder }}/data_dump/;   # real file storage
+    alias /data/data_dump/;   # real file storage
 }
 }
