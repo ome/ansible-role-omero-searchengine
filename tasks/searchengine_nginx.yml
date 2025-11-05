@@ -1,20 +1,35 @@
 ---
+- name: Create Nginx configuration directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/nginx/conf.d
+    state: directory
+    mode: 0644
 
-- name: Include ome.nginx role
-  ansible.builtin.include_role:
-    name: ome.nginx
-  vars:
-     nginx_keep_default_configs: true
+- name: Create Nginx log directory
+  become: true
+  ansible.builtin.file:
+    path: /var/log/nginx
+    state: directory
+    mode: 0755
 
-- name:  write nginx config
+- name:  Copy serachengine Nginx config
   become: true
   ansible.builtin.template:
     dest: /etc/nginx/conf.d/searchengine.conf
     src: searchengine.conf.j2
     mode: 0644
 
-- name: Restart nginx
-  service:
-    name: nginx
-    state: restarted
-  changed_when: false
+- name: Run Nginx container
+  become: true
+  community.docker.docker_container:
+    name: my-nginx-container
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx/conf.d:/etc/nginx/conf.d:ro
+      - /var/log/nginx:/var/log/nginx
+    state: started
+    restart_policy: always
