@@ -4,9 +4,9 @@
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/nginx/conf.d"
     state: directory
-    owner: 1000
+    owner: root
     group: root
-    mode: 0755
+    mode: 0644
   changed_when: false
 
 - name: Create Nginx log directory
@@ -24,7 +24,7 @@
   ansible.builtin.template:
     dest: "{{ apps_folder }}/searchengine/nginx/conf.d/searchengine.conf"
     src: searchengine.conf.j2
-    owner: 1000
+    owner: root
     group: root
     mode: 0644
   changed_when: false
