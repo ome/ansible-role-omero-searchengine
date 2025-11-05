@@ -8,4 +8,4 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 def test_nginx_gateway(host):
     out = host.check_output('curl -L  http://localhost')
-    assert 'HTTP Server' in out
+    assert 'Thank yo' in out

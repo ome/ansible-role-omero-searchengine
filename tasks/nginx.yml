@@ -4,7 +4,9 @@
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/nginx/conf.d"
     state: directory
-    mode: 0644
+    owner: nginx
+    group: nginx
+    mode: 0755
   changed_when: false
 
 - name: Create Nginx log directory
@@ -12,6 +14,8 @@
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/nginx/log"
     state: directory
+    owner: nginx
+    group: nginx
     mode: 0755
   changed_when: false
 
@@ -20,6 +24,8 @@
   ansible.builtin.template:
     dest: "{{ apps_folder }}/searchengine/nginx/conf.d/searchengine.conf"
     src: searchengine.conf.j2
+    owner: nginx
+    group: nginx
     mode: 0644
   changed_when: false
 
@@ -30,13 +36,13 @@
     image: nginx:latest
     published_ports:
       - "80:80"
-    #  - "443:443"
-    #volumes:
-    #  - "{{ apps_folder }}/searchengine/nginx/conf.d/:/etc/nginx/conf.d:ro"
-    #  - "{{ apps_folder }}/searchengine/nginx/log:/var/log/nginx"
+      - "443:443"
+    volumes:
+      - "{{ apps_folder }}/searchengine/nginx/conf.d/:/etc/nginx/conf.d"
+      - "{{ apps_folder }}/searchengine/nginx/log:/var/log/nginx"
     state: started
     restart_policy: always
-    #networks:
-    #  - name: "searchengine-net"
+    networks:
+      - name: "searchengine-net"
 
 
