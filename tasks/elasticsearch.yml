@@ -55,7 +55,7 @@
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/certs"
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
   changed_when: false
-  when: not ip_taken
+  when: not ip_taken | bool
 
 
 - name: Wait for CA file
@@ -63,19 +63,19 @@
     path: "{{ apps_folder }}/searchengine/elasticsearch/certs/elastic-ca.p12"
     state: present
   register: check_ca_file_result
-  when: not ip_taken
+  when: not ip_taken | bool
 
 
 - name: Show wait CA file result
   debug:
     var: check_ca_file_result
-  when: not ip_taken
+  when: not ip_taken | bool
 
 - copy:
       dest: /tmp/instances.yaml
       content: |
         {{ instances   |to_nice_yaml }}
-  when: not ip_taken
+  when: not ip_taken | bool
 
 - name: Create nodes' cert
   become: yes
@@ -94,7 +94,7 @@
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
         - /tmp/instances.yaml:/tmp/instances.yaml
   changed_when: false
-  when: not ip_taken
+  when: not ip_taken | bool
 
 
 - name: Get Docker network info
@@ -156,7 +156,7 @@
     - "{{ apps_folder }}/searchengine/elasticsearch/node1/logs:/var/log/elasticsearch"
     - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
-  when: not ip_taken
+  when: not ip_taken | bool
 
 ############################
 - name: Get info about the searchengine_elasticsearch_node1 container
