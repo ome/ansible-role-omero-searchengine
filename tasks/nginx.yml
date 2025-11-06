@@ -34,6 +34,7 @@
   community.docker.docker_container:
     name: searchengine-nginx-container
     image: nginx:latest
+    network_mode: "host"
     published_ports:
       - "80:80"
       - "8080:8080"
