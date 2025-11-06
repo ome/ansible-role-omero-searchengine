@@ -164,11 +164,12 @@
   community.docker.docker_container_info:
     name: searchengine_elasticsearch_node1
   register: container_info
+  when: ip_taken
 
 - name: Debug container state
   ansible.builtin.debug:
     msg: "Container '{{ container_info.container.Name }}' is in state: {{ container_info.container.State.Status }}"
-  when: container_info and container_info.container
+  when: ip_taken and container_info and container_info.container
 
 ########################################
 - name: Run docker elasticsearch for the remaining nodes
