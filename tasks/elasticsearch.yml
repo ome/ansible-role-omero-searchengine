@@ -167,7 +167,7 @@
 - name: Debug container state
   ansible.builtin.debug:
     msg: "Container '{{ container_info.container.Name }}' is in state: {{ container_info.container.State.Status }}"
-  when: ip_taken | bool
+  #when: ip_taken | bool
 ########################################
 
 - name: Run docker elasticsearch for the remaining nodes
