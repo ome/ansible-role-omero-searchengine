@@ -207,6 +207,18 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
 
 
+############################
+- name: Get info about the searchengine container
+  community.docker.docker_container_info:
+    name: searchengine
+  register: container_info_searchengine
+
+- name: Debug search container state
+  ansible.builtin.debug:
+    msg: "Container '{{ container_info_searchengine.container.Name }}' is in state: {{ container_info.container.State.Status }}"
+  #when: ip_taken | bool
+########################################
+
 - name: Run docker celery job (Synchronize queries)
   become: yes
   community.docker.docker_container:
@@ -222,6 +234,19 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
+
+
+############################
+- name: Get info about the searchengine_celery container
+  community.docker.docker_container_info:
+    name: searchengine_celery
+  register: container_info_celery
+
+- name: Debug celery container state
+  ansible.builtin.debug:
+    msg: "Container '{{ container_info_celery.container.Name }}' is in state: {{ container_info.container.State.Status }}"
+  #when: ip_taken | bool
+########################################
 
 
 - name: Run docker searchengine run celery beat
@@ -240,3 +265,15 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
+
+############################
+- name: Get info about the searchengine_beat container
+  community.docker.docker_container_info:
+    name: searchengine_beat
+  register: container_info_beat
+
+- name: Debug beat container state
+  ansible.builtin.debug:
+    msg: "Container '{{ container_info_beat.container.Name }}' is in state: {{ container_info.container.State.Status }}"
+  #when: ip_taken | bool
+########################################
