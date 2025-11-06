@@ -158,20 +158,18 @@
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
   when: not ip_taken
 
-
 ############################
 - name: Get info about the searchengine_elasticsearch_node1 container
   community.docker.docker_container_info:
     name: searchengine_elasticsearch_node1
   register: container_info
-  when: ip_taken
 
 - name: Debug container state
   ansible.builtin.debug:
     msg: "Container '{{ container_info.container.Name }}' is in state: {{ container_info.container.State.Status }}"
   when: ip_taken and container_info and container_info.container
-
 ########################################
+
 - name: Run docker elasticsearch for the remaining nodes
   become: yes
   community.docker.docker_container:
