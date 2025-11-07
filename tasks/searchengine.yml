@@ -311,3 +311,11 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   when: not container_info_searchengine_f.exists
 
+
+- name: Wait for index to exit
+  community.docker.docker_container_info:
+    name: searchengine_create_index
+  register: container_index_info
+  until: not container_index_info.container.State.Running
+  retries: 60
+  delay: 1
