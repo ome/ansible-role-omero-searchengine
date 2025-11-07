@@ -322,5 +322,6 @@
   when: not container_info_searchengine_f.exists
 
 
-- debug:
-  msg: "Results is: {{ container_index_info }}"
+- name: Debug index  container state
+  ansible.builtin.debug:
+    msg:  "Results is: {{ container_index_info }}"
