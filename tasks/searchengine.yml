@@ -299,7 +299,7 @@
     image: "{{ searchengine_docker_image }}"
     name: searchengine_create_index
     cleanup: True
-    command: "create_index image"
+    command: "create_index -r image"
     networks:
     - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
