@@ -246,6 +246,7 @@
   ansible.builtin.debug:
     msg: "Container '{{ container_info_celery.container.Name }}' is in state: {{ container_info.container.State.Status }}"
   #when: ip_taken | bool
+  
 ########################################
 
 
