@@ -1,14 +1,16 @@
 ---
+- name: Check if IP is in use
+  set_fact:
+    ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
 
+- debug:
+    msg: "this the value: { ip_taken} "
 - name: Add elastic nodes to instances_nodes
   ansible.builtin.set_fact:
     instances_nodes: "{{instances_nodes + [( {'name' : 'searchengine_elasticsearch_node'+item, 'dns': ['searchengine_elasticsearch_node'+item,'localhost'],'ip': '127.0.0.1'})] }}"
 
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
 
-- name: Check if IP is in use
-  set_fact:
-    ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
 
 
 - name: Add elastic nodes to instances
