@@ -299,7 +299,7 @@
     image: "{{ searchengine_docker_image }}"
     name: searchengine_beat
     cleanup: True
-    command: "create_omero_indexes"
+    command: "create_index"
     networks:
     - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
