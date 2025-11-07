@@ -6,6 +6,10 @@
 
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
 
+- name: Check if IP is in use
+  set_fact:
+    ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
+
 
 - name: Add elastic nodes to instances
   ansible.builtin.set_fact:
@@ -36,9 +40,7 @@
   with_items:
     - { varname: "vm.max_map_count", varvalue: "262144" }
 
-- name: Check if IP is in use
-  set_fact:
-    ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
+
 
 
 - name: create CA
