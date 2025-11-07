@@ -316,10 +316,10 @@
   community.docker.docker_container_info:
     name: searchengine_create_index
   register: container_index_info
-  until: not container_index_info.container.State.Running
-  retries: 60
-  delay: 1
-  when: not container_info_searchengine_f.exists
+  #until: not container_index_info.container.State.Running
+  #retries: 60
+  #delay: 1
+  #when: not container_info_searchengine_f.exists
 
 
 - name: Debug index  container state
