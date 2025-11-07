@@ -2,9 +2,14 @@
 # Configure and run search Engine
 
 
-- name: Check if IP is in use
-  set_fact:
-    ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
+- name: Get info about the searchengine container
+  community.docker.docker_container_info:
+    name: searchengine
+  register: container_info_searchengine_f
+
+- name: Debug search container state
+  ansible.builtin.debug:
+    msg: "Container '{{ container_info_searchengine_f.container.Name }}' is in state: {{ container_info_searchengine_f.container.State.Status }}"
 
 
 - name: set elasticsearch_nodes_urls
@@ -211,7 +216,7 @@
     volumes:
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
-
+  when: container_info_searchengine_f.container.State.Status != "running"
 
 ############################
 - name: Get info about the searchengine container
@@ -240,6 +245,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
+  when: container_info_searchengine_f.container.State.Status != "running"
 
 
 ############################
@@ -272,7 +278,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  when: ip_taken | bool
+  when: container_info_searchengine_f.container.State.Status != "running"
 ############################
 - name: Get info about the searchengine_beat container
   community.docker.docker_container_info:
@@ -282,9 +288,8 @@
 - name: Debug beat container state
   ansible.builtin.debug:
     msg: "Container '{{ container_info_beat.container.Name }}' is in state: {{ container_info.container.State.Status }}"
-  when: ip_taken | bool
-########################################
 
+########################################
 
 - name: create_omero_indexes
   become: yes
@@ -302,4 +307,4 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-    when: ip_taken | bool
+    when: container_info_searchengine_f.container.State.Status != "running"
