@@ -10,7 +10,6 @@
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
 
 
-
 - name: Add elastic nodes to instances
   ansible.builtin.set_fact:
     instances: "{{instances | combine ( {'instances' : instances_nodes}) }}"
@@ -39,8 +38,6 @@
   ansible.posix.sysctl: name={{ item.varname }} value={{ item.varvalue }}
   with_items:
     - { varname: "vm.max_map_count", varvalue: "262144" }
-
-
 
 
 - name: create CA
@@ -113,6 +110,7 @@
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
+
     name: "searchengine_elasticsearch_node1"
     cleanup: True
     ulimits:
