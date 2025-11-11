@@ -13,16 +13,19 @@
     state: present
   become: true
 
-
-#- name: Ensure sysctl is present
-#  package:
-#    name: procps-ng
-#    state: present
-#  become: true
-
 - name:  Import ome.docker role
   ansible.builtin.import_role:
     name: ome.docker
+
+
+- name: Check if a elastic node data folder exists
+  hosts: all
+  tasks:
+    - name: Get status of the directory
+      ansible.builtin.stat:
+        path: {{ apps_folder }}/searchengine/elasticsearch/node1/data
+      register: elastic_node_data_folder
+
 
 - name: Create app top level directory
   become: yes
@@ -95,7 +98,8 @@
     group: root
     mode: 0755
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
-  changed_when: false
+  #changed_when: false
+  when: not elastic_node_data_folder.exists
 
 
 - name: deploy elasticsearch cluster
