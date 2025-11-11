@@ -95,7 +95,7 @@
     mode: 0755
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
   #changed_when: false
-  when: not elastic_node_data_folder.exists
+  when: not elastic_node_data_folder.stat.exists
 
 
 - name: deploy elasticsearch cluster
