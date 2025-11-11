@@ -27,7 +27,7 @@
     owner: 1000
     group: root
     mode: 0755
-  when: not container_info_searchengine_f.exists
+  #when: not container_info_searchengine_f.exists
 
 - name: Create searchengine logs directory
   become: yes
@@ -306,7 +306,7 @@
     image: "{{ searchengine_docker_image }}"
     name: searchengine_create_index
     cleanup: True
-    command: "create_index -r image"
+    command: "create_index"
     networks:
     - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
