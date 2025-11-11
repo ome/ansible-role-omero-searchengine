@@ -23,7 +23,7 @@
   tasks:
     - name: Get status of the directory
       ansible.builtin.stat:
-        path: {{ apps_folder }}/searchengine/elasticsearch/node1/data
+        path: "{{ apps_folder }}/searchengine/elasticsearch/node1/data"
       register: elastic_node_data_folder
 
 
