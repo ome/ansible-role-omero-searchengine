@@ -27,6 +27,7 @@
     owner: root
     group: root
     mode: 0755
+  when: not container_info_searchengine_f.exists
 
 - name: Create searchengine logs directory
   become: yes
