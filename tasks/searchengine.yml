@@ -12,7 +12,6 @@
     msg: "Container '{{ container_info_searchengine_f }}' is in state: {{ container_info_searchengine_f.exists}}"
 
 
-
 - name: set elasticsearch_nodes_urls
   ansible.builtin.set_fact:
     elasticsearch_nodes_urls: []
@@ -325,7 +324,7 @@
   #until: not container_index_info.container.State.Running
   #retries: 60
   #delay: 1
-  #when: not container_info_searchengine_f.exists
+  when: not container_info_searchengine_f.exists
 
 
 - name: Debug index  container state

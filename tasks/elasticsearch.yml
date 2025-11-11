@@ -54,25 +54,25 @@
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/certs"
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
   changed_when: false
-  when: not ip_taken | bool
+  when: not container_info_elasticsearch_node1.exists
 
 - name: Wait for CA file
   ansible.builtin.wait_for:
     path: "{{ apps_folder }}/searchengine/elasticsearch/certs/elastic-ca.p12"
     state: present
   register: check_ca_file_result
-  when: not ip_taken | bool
+  when: not container_info_elasticsearch_node1.exists
 
 - name: Show wait CA file result
   debug:
     var: check_ca_file_result
-  when: not ip_taken | bool
+  when: not container_info_elasticsearch_node1.exists
 
 - copy:
       dest: /tmp/instances.yaml
       content: |
         {{ instances   |to_nice_yaml }}
-  when: not ip_taken | bool
+  when: not container_info_elasticsearch_node1.exists
 
 - name: Create nodes' cert
   become: yes
@@ -90,7 +90,7 @@
         - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
         - /tmp/instances.yaml:/tmp/instances.yaml
   changed_when: false
-  when: not ip_taken | bool
+  when: not container_info_elasticsearch_node1.exists
 
 - name: Get Docker network info
   community.docker.docker_network_info:
