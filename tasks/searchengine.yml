@@ -24,7 +24,7 @@
     path: "{{ apps_folder }}/searchengine/searchengine"
     recurse: yes
     state: directory
-    owner: root
+    owner: 1000
     group: root
     mode: 0755
   when: not container_info_searchengine_f.exists
@@ -34,6 +34,8 @@
   file:
     path: "{{ apps_folder }}/searchengine/searchengine/logs"
     state: directory
+    owner: 1000
+    group: root
     mode: 0755
 
 - name: Create searchengine data_dump directory
@@ -41,6 +43,8 @@
   file:
     path: "{{ apps_folder }}/data_dump/{{ default_datasource }}"
     state: directory
+    owner: 1000
+    group: root
     mode: 0755
 
 - name: Create searchengine cached directory
@@ -48,6 +52,8 @@
   file:
     path: "{{ apps_folder }}/searchengine/searchengine/cacheddata"
     state: directory
+    owner: 1000
+    group: root
     mode: 0755
 
 #Add all elasticsearch nodes
