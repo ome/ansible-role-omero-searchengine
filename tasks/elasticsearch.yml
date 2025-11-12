@@ -160,7 +160,6 @@
   ansible.builtin.debug:
     var:  container_noder1_run_result.Output
   # when: not ip_taken | bool
-
 ############################
 - name: Get info about the searchengine_elasticsearch_node1 container
   community.docker.docker_container_info:
