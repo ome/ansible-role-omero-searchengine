@@ -144,7 +144,6 @@
     networks:
     - name: "searchengine-net"
       ipv4_address: 10.11.0.2
-    network_mode: "host"
     published_ports:
       - "9201:9200"
       - "9301:9300"
