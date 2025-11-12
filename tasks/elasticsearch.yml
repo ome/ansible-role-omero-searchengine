@@ -158,7 +158,7 @@
 
 - name: Display node container logs
   ansible.builtin.debug:
-    var:  container_noder1_run_result.Output
+    var:  container_noder1_run_result
   # when: not ip_taken | bool
 ############################
 - name: Get info about the searchengine_elasticsearch_node1 container
