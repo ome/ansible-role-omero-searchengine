@@ -145,8 +145,8 @@
     - name: "searchengine-net"
       ipv4_address: 10.11.0.2
     published_ports:
-      - "9201:9200"
-      - "9301:9300"
+      - "9200:9200"
+      - "9300:9300"
     state: started
     restart_policy: always
     volumes:
