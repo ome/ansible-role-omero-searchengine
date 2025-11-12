@@ -37,7 +37,7 @@
     network_mode: "host"
     published_ports:
       - "80:80"
-      - "8080:8080"
+      #- "8080:8080"
       - "443:443"
     volumes:
       - "{{ apps_folder }}/searchengine/nginx/conf.d/searchengine.conf:/etc/nginx/conf.d/searchengine.conf"
