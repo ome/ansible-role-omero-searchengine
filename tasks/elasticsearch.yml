@@ -28,6 +28,7 @@
  #  ansible_python_interpreter: /usr/bin/python
   community.docker.docker_network:
     name: searchengine-net
+    driver: bridge
     ipam_config:
       - subnet=10.11.0.0/16
 
@@ -143,6 +144,7 @@
     networks:
     - name: "searchengine-net"
       ipv4_address: 10.11.0.2
+    network_mode: "host"
     published_ports:
       - "9201:9200"
       - "9301:9300"
