@@ -13,7 +13,7 @@
 
 - name: Create Searchengine Redis container
   community.docker.docker_container:
-    name: my-redis-container
+    name: searchengine-redis-container
     image: redis:latest
     networks:
       - name: searchengine-net
