@@ -36,7 +36,7 @@
     image: nginx:latest
     #networks:
     #  - name: host
-    network_mode: "host"
+    #network_mode: "host"
     published_ports:
       - "80:80"
       #- "8080:8080"

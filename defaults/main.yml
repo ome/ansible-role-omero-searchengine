@@ -24,7 +24,7 @@ ca_password: "ca_password"
 keystore_password: "keystore_password"
 ELASTIC_PASSWORD: "elastic_password"
 REDIS_PORT: 6379
-REDIS_URL: 127.0.0.1
+REDIS_URL: 10.11.0.22
 ASYNCHRONOUS_SEARCH: true
 CACHE_FOLDER: /etc/searchengine/cachedata
 DATA_DUMP_FOLDER: /data/data_dump/

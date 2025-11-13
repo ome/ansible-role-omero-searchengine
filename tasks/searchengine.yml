@@ -190,6 +190,20 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
+
+- name: configure elastics redis url
+  become: yes
+  community.docker.docker_container:
+    image: "{{ searchengine_docker_image }}"
+    name: redis_url
+    cleanup: True
+    #auto_remove: yes
+    command: "set_redis_url -r {{ REDIS_URL }}"
+    state: started
+    volumes:
+      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+  changed_when: false
+
 # automatic refreshing  when configuration change is detected
 
 - name: Set automatic refreshing the configuration
