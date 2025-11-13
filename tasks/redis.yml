@@ -6,8 +6,8 @@
     path: "{{ apps_folder }}/searchengine/data_dump/redis"
     state: directory
     # User id in elasticsearch Docker image
-    owner: 999
-    group: 999
+    owner: 1000
+    group: root
     mode: 0700
   changed_when: false
 
@@ -19,5 +19,5 @@
     published_ports:
       - "6379:6379"
     volumes:
-      - "{{ apps_folder }}/searchengine/data_dump/redis"
+      - "{{ apps_folder }}/searchengine/data_dump/redis:/var/lib/redis"
     restart_policy: always
