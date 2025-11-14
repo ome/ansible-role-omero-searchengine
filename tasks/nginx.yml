@@ -24,7 +24,7 @@
   ansible.builtin.template:
     dest: "{{ apps_folder }}/searchengine/nginx/conf.d/searchengine.conf"
     src: searchengine.conf.j2
-    owner: root
+    owner: 1000
     group: root
     mode: 0644
   changed_when: false
@@ -46,7 +46,12 @@
       - "{{ apps_folder }}/searchengine/nginx/log:/var/log/nginx"
     state: started
     restart_policy: always
-    #networks:
-    #  - name: "searchengine-net"
+    networks:
+      - name: "searchengine-net"
+    register: container_nginx
+
+- name: Display node container logs
+  ansible.builtin.debug:
+     var:  container_nginx
 
 

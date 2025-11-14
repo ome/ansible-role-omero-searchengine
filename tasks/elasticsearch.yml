@@ -188,11 +188,7 @@
 #    msg: "Node1 logs is:  '{{ node1_logs }}"
 #  changed_when: false
 
-
 ########################################
-
-
-
 - name: Run docker elasticsearch for the remaining nodes
   become: yes
   community.docker.docker_container:
