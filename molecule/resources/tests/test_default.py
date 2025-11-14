@@ -7,7 +7,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 def test_nginx_gateway(host):
-    out = host.check_output('curl -L  http://127.0.0.1/searchengine/api/v1/resources/')
+    out = host.check_output('curl -L  http://127.0.0.18080/searchengine/api/v1/resources/')
     assert 'OMERO search engine (API V1)' in out
 
 def test_redis_connection(host):
