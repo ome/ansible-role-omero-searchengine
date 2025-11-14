@@ -344,3 +344,14 @@
 - name: Debug index  container state
   ansible.builtin.debug:
     msg:  "Results is: {{ container_index_info }}"
+
+
+
+- name: Get info about the node status
+  command: "docker logs searchengine_elasticsearch_node1"
+
+  register: node_status
+
+- name: Debug node1 status
+  ansible.builtin.debug:
+    msg: "Container '{{ node_status }}"
