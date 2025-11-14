@@ -35,11 +35,11 @@
 # I got some memory exceptions when start using elasticsearch cluster and
 # increasing the mmap counts limits fix this issue
 #https://www.elastic.co/guide/en/elasticsearch/reference/7.16 /vm-max-map-count.html
-- name: set vm.max_map_count to 262144 in sysctl
-  become: yes
-  ansible.posix.sysctl: name={{ item.varname }} value={{ item.varvalue }}
-  with_items:
-    - { varname: "vm.max_map_count", varvalue: "262144" }
+#- name: set vm.max_map_count to 262144 in sysctl
+#  become: yes
+#  ansible.posix.sysctl: name={{ item.varname }} value={{ item.varvalue }}
+#  with_items:
+#    - { varname: "vm.max_map_count", varvalue: "262144" }
 
 - name: create CA
   become: yes
@@ -121,7 +121,7 @@
       http.host: 0.0.0.0
       #http.port: 9200
       #ES_JAVA_OPTS: "-Xms2g -Xmx2g"
-      ES_JAVA_OPTS: "-Xms128m -Xmx128m"
+      ES_JAVA_OPTS: "-Xms64m -Xmx64m"
       ingest.geoip.downloader.enabled: "false"
       ########################################
       es_api_basic_auth_username: "elastic"
