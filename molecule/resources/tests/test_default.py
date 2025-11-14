@@ -32,4 +32,13 @@ def test_searchengine_search_elastic_connection(host):
     assert '{"image_keyvalue_pair_metadata":{"aliases":{},"mappings":' in out
 
 
+def test_searchengine_elastic_ports(host):
+    out = host.check_output('lsof -i :9201')
+    assert 'test to display port' in out
+
+def test_searchengine_nginx_ports(host):
+    out = host.check_output('lsof -i :80')
+    assert 'Test to display ports' in out
+
+
 #image_keyvalue_pair_metadata
