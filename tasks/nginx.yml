@@ -29,6 +29,16 @@
     mode: 0644
   changed_when: false
 
+- name:  Copy serachengine Nginx config
+  become: true
+  ansible.builtin.template:
+    dest: "{{ apps_folder }}/searchengine/nginx/nginx.conf"
+    src: nginx.conf.j2
+    owner: 1000
+    group: root
+    mode: 0644
+  changed_when: false
+
 - name: Run Nginx container
   become: true
   community.docker.docker_container:
@@ -43,6 +53,7 @@
       - "443:443"
     volumes:
       - "{{ apps_folder }}/searchengine/nginx/conf.d/searchengine.conf:/etc/nginx/conf.d/searchengine.conf"
+      - "{{ apps_folder }}/searchengine/nginx/nginx.conf:/etc/nginx.conf"
       - "{{ apps_folder }}/searchengine/nginx/log:/var/log/nginx"
     state: started
     restart_policy: always
