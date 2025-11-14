@@ -34,9 +34,9 @@
   community.docker.docker_container:
     name: searchengine-nginx-container
     image: nginx:latest
-    #networks:
-    #  - name: host
-    #network_mode: "host"
+    networks:
+      - name: host
+
     published_ports:
       - "80:80"
       - "{{ NGINX_PORT }}:{{ NGINX_PORT }}"
@@ -46,7 +46,6 @@
       - "{{ apps_folder }}/searchengine/nginx/log:/var/log/nginx"
     state: started
     restart_policy: always
-    networks:
-      - name: "searchengine-net"
+
 
 
