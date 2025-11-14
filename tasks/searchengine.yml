@@ -351,20 +351,17 @@
   #delay: 1
   when: not container_info_searchengine_f.exists
 
-
-- name: Debug index  container state
-  ansible.builtin.debug:
-    msg:  "Results is: {{ container_index_info }}"
-
-
-
-#- name: Get info about the node status
-#  command: "docker logs searchengine_elasticsearch_node1"
-#  changed_when: false
-
-#  register: node_status
-
-#- name: Debug node1 status
+#- name: Debug index  container state
 #  ansible.builtin.debug:
-#    msg: "Container '{{ node_status }}"
-#  changed_when: false
+#    msg:  "Results is: {{ container_index_info }}"
+
+- name: Get info about the node status
+  command: "docker logs searchengine_elasticsearch_node1"
+  changed_when: false
+
+  register: node_status
+
+- name: Debug node1 status
+  ansible.builtin.debug:
+    msg: "Container '{{ node_status }}"
+  changed_when: false
