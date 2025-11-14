@@ -48,7 +48,7 @@
     restart_policy: always
     networks:
       - name: "searchengine-net"
-    register: container_nginx
+  register: container_nginx
 
 - name: Display node container logs
   ansible.builtin.debug:
