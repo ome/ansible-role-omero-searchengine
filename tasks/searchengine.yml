@@ -349,9 +349,11 @@
 
 - name: Get info about the node status
   command: "docker logs searchengine_elasticsearch_node1"
+  changed_when: false
 
   register: node_status
 
 - name: Debug node1 status
   ansible.builtin.debug:
     msg: "Container '{{ node_status }}"
+  changed_when: false
