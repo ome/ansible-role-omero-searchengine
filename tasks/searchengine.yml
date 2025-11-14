@@ -355,13 +355,13 @@
 #  ansible.builtin.debug:
 #    msg:  "Results is: {{ container_index_info }}"
 
-- name: Get info about the nginx status
-  command: "docker logs searchengine-nginx-container"
-  changed_when: false
+#- name: Get info about the nginx status
+#  command: "docker logs searchengine-nginx-container"
+#  changed_when: false
 
-  register: node_status
+#  register: node_status
 
-- name: Debug nginx status
-  ansible.builtin.debug:
-    msg: "Container '{{ node_status }}"
-  changed_when: false
+#- name: Debug nginx status
+#  ansible.builtin.debug:
+#    msg: "Container '{{ node_status }}"
+#  changed_when: false
