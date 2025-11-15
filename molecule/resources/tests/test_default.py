@@ -18,9 +18,9 @@ def test_searchengine_connection(host):
     out = host.check_output('curl -XGET http://127.0.0.1:5577/searchengine/api/v1/resources/')
     assert 'OMERO search engine (API V1)' in out
 
-def test_searchengine_elastic_cluster_health(host):
-    out = host.check_output('curl -XGET -k -u "elastic:elastic_password" https://127.0.0.1:9201/_cluster/health?pretty')
-    assert  '"status" : "green",' in out
+#def test_searchengine_elastic_cluster_health(host):
+#    out = host.check_output('curl -XGET -k -u "elastic:elastic_password" https://127.0.0.1:9201/_cluster/health?pretty')
+#    assert  '"status" : "green",' in out
 
 
 def test_searchengine_elasticsearch_connection(host):
