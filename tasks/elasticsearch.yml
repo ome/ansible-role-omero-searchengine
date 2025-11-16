@@ -47,6 +47,7 @@
     image: "{{ search_engineelasticsearch_docker_image }}"
     name: "creat_ca_for_elasticsearch_cluster"
     cleanup: True
+    auto_remove: yes
     command:  "bash -c '/usr/share/elasticsearch/bin/elasticsearch-certutil ca -s  -out /usr/share/elasticsearch/config/certificates/elastic-ca.p12 --pass {{ ca_password }}
        '"
         #fi;
@@ -81,6 +82,7 @@
     image: "{{ search_engineelasticsearch_docker_image }}"
     name: "creat_ca_for_elasticsearch_cluster"
     cleanup: True
+    auto_remove: yes
     command:  "bash -c 'bin/elasticsearch-certutil cert --ca /usr/share/elasticsearch/config/certificates/elastic-ca.p12 --ca-pass {{ ca_password }}  --pass {{ keystore_password }}  --in /tmp/instances.yaml -out /usr/share/elasticsearch/config/certificates/bundle.zip;
     echo 'done';
     unzip /usr/share/elasticsearch/config/certificates/bundle.zip -d /usr/share/elasticsearch/config/certificates/;
