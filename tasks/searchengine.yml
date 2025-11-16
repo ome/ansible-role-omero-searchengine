@@ -235,7 +235,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   when: not container_info_searchengine_f.exists
 
-- name: Prune everything (including non-dangling images)
+- name: Prune configured docker container to free resources
   community.docker.docker_prune:
     containers: true
     images: true
