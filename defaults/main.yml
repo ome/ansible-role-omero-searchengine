@@ -33,3 +33,4 @@ elasticsearch_nodes: [ ]
 instances_nodes: []
 instances: {}
 NGINX_PORT: 8080
+ES_JAVA_OPTIONS: "-Xms2g -Xmx2g"

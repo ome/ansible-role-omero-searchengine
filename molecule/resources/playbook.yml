@@ -12,6 +12,7 @@
   #      password: database_password
   #      databases: [ database_name ]
   - role: ome.omero_searchengine
+    ES_JAVA_OPTIONS: "-Xms128m -Xmx128m"
 
   tasks:
 
