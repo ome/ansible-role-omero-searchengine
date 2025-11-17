@@ -1,4 +1,4 @@
-apps_folder: /data
+apps_folder: /tmp/data
 database_server_url: 127.0.0.1
 elasticsearch_nodes_urls: []
 database_port: 5432
