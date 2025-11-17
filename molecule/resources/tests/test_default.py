@@ -7,7 +7,6 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 def test_create_search_index(host):
-    #out = host.check_output('curl -s -o /dev/null -w "%{http_code}"   -k -u "elastic:elastic_password" https://127.0.0.1:9201/image_keyvalue_pair_metadata_1')
     out = host.check_output(
         'curl -I  -k -u "elastic:elastic_password" https://127.0.0.1:9201/image_keyvalue_pair_metadata_1')
     assert '200' in out
