@@ -7,7 +7,7 @@ default_datasource: data_source
 database_username: database_user
 database_user_password: database_password
 searchenginecache_folder: /data/searchengine/searchengine/cacheddata/
-search_engineelasticsearch_docker_image: docker.elastic.co/elasticsearch/elasticsearch:9.1.16
+search_engineelasticsearch_docker_image: docker.elastic.co/elasticsearch/elasticsearch:9.1.6
 searchengine_docker_image: khaledk2/searchengine:new_packages
 # ansible_python_interpreter: path/to/bin/python
 searchengine_index: searchengine_index
