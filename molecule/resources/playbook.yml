@@ -1,18 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-  #- role: ome.postgresql
-  #  postgresql_version: "16"
-  #  postgresql_databases:
-  #    - name: database_name
-  #      owner: database_user
-  #  postgresql_users:
-  #    - user: database_user
-  #      password: database_password
-  #      databases: [ database_name ]
-  - role: ome.omero_searchengine
-    ES_JAVA_OPTIONS: "-Xms128m -Xmx128m"
 
   tasks:
 
@@ -28,3 +16,16 @@
       state: stopped
       enabled: false
     become: yes
+
+    roles:
+      #- role: ome.postgresql
+      #  postgresql_version: "16"
+      #  postgresql_databases:
+      #    - name: database_name
+      #      owner: database_user
+      #  postgresql_users:
+      #    - user: database_user
+      #      password: database_password
+      #      databases: [ database_name ]
+      - role: ome.omero_searchengine
+        ES_JAVA_OPTIONS: "-Xms128m -Xmx128m"
