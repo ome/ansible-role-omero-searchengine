@@ -40,7 +40,6 @@
   ansible.posix.sysctl: name={{ item.varname }} value={{ item.varvalue }}
   with_items:
     - { varname: "vm.max_map_count", varvalue: "262144" }
-  when: elasticsearch_no_nodes > 1
 
 - name: create CA
   become: yes
