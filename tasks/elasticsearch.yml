@@ -124,7 +124,7 @@
       #http.port: 9200
       #ES_JAVA_OPTS: "{{ ES_JAVA_OPTIONS }}"
       #this one should be added when the cluster is only one node
-      #discovery.type: single-node
+      discovery.type: single-node
 
       ES_JAVA_OPTS: "-Xms128m -Xmx128m"
       ingest.geoip.downloader.enabled: "false"
@@ -141,6 +141,7 @@
       xpack.security.http.ssl.truststore.password: "{{ ca_password }}"
       xpack.security.http.ssl.keystore.password: "{{ ca_password }}"
       xpack.security.transport.ssl.enabled: "true"
+      xpack.security.transport.ssl.verification_mode: "certificate"
       xpack.security.transport.ssl.verification_mode: "certificate"
       xpack.security.transport.ssl.keystore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
       xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
