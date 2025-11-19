@@ -299,7 +299,7 @@
     image: "{{ searchengine_docker_image }}"
     name: searchengine_indexer
     cleanup: True
-    command: "get_index_data_from_database -d {{ DEFAULT_DATASOURCE }} -b False"
+    command: "get_index_data_from_database"
     networks:
       - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
