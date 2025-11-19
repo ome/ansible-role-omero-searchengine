@@ -123,6 +123,9 @@
       http.host: 0.0.0.0
       #http.port: 9200
       #ES_JAVA_OPTS: "{{ ES_JAVA_OPTIONS }}"
+      #this one should be added when the cluster is only one node
+      #discovery.type: single-node
+
       ES_JAVA_OPTS: "-Xms128m -Xmx128m"
       ingest.geoip.downloader.enabled: "false"
       ########################################
@@ -219,3 +222,4 @@
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
     - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
   with_sequence: start=2 count={{ elasticsearch_no_nodes | int -1 }}
+  when: not container_info_elasticsearch_node1.exists
