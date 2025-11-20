@@ -124,9 +124,8 @@
       #http.port: 9200
       #ES_JAVA_OPTS: "{{ ES_JAVA_OPTIONS }}"
       #this one should be added when the cluster is only one node
-      discovery.type: single-node
-
-      ES_JAVA_OPTS: "-Xms128m -Xmx128m"
+      # discovery.type: single-node
+      ES_JAVA_OPTS: " {{ ES_JAVA_OPTIONS }}"
       ingest.geoip.downloader.enabled: "false"
       ########################################
       es_api_basic_auth_username: "elastic"
@@ -142,14 +141,13 @@
       xpack.security.http.ssl.keystore.password: "{{ ca_password }}"
       xpack.security.transport.ssl.enabled: "true"
       xpack.security.transport.ssl.verification_mode: "certificate"
-      xpack.security.transport.ssl.verification_mode: "certificate"
       xpack.security.transport.ssl.keystore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
       xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
       xpack.security.transport.ssl.keystore.password: "{{ keystore_password }}"
       xpack.security.transport.ssl.truststore.password: "{{ keystore_password }}"
-      #cluster.routing.allocation.disk.watermark.low: "90%"
-      #cluster.routing.allocation.disk.watermark.high: "95%"
-      #cluster.routing.allocation.disk.watermark.flood_stage: "98%"
+      cluster.routing.allocation.disk.watermark.low: "90%"
+      cluster.routing.allocation.disk.watermark.high: "95%"
+      cluster.routing.allocation.disk.watermark.flood_stage: "98%"
     #########################################################################
     networks:
     - name: "searchengine-net"
@@ -187,7 +185,7 @@
       http.host: 0.0.0.0
       #http.port: 9200
       #ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-      ES_JAVA_OPTS: "-Xms128m -Xmx128m"
+      ES_JAVA_OPTS: " {{ ES_JAVA_OPTIONS }}"
       ingest.geoip.downloader.enabled: "false"
       ####################################################################
       es_api_basic_auth_username: "elastic"
@@ -207,6 +205,9 @@
       xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node{{ item }}/searchengine_elasticsearch_node{{ item }}.p12"
       xpack.security.transport.ssl.keystore.password: "{{ keystore_password }}"
       xpack.security.transport.ssl.truststore.password: "{{ keystore_password }}"
+      cluster.routing.allocation.disk.watermark.low: "90%"
+      cluster.routing.allocation.disk.watermark.high: "95%"
+      cluster.routing.allocation.disk.watermark.flood_stage: "98%"
       ####################################################################
 
     networks:

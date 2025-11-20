@@ -17,7 +17,7 @@ cache_rows: 1000
 searchengine_secret_key: search_engine_secret_key
 searchengineurlprefix: "searchengine"
 IDR_TEST_FILE_URL: "https://raw.githubusercontent.com/IDR/idr.openmicroscopy.org/master/_data/studies.tsv"
-elasticsearch_no_nodes: 1
+elasticsearch_no_nodes: 2
 # This should be a separate volume, cloned as part of the routine deployment process.
 elasticsearch_backup_folder: "/searchengine_backup"
 ca_password: "ca_password"
