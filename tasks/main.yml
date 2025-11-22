@@ -13,12 +13,15 @@
     state: present
   become: true
 
-- name: update curl and openssl
-  dnf:
+
+- name: Ensure sysctl is present
+  ansible.builtin.dnf:
     name:
       - curl
       - ca-certificates
     state: latest
+  become: true
+
 
 - name:  Import ome.docker role
   ansible.builtin.import_role:
@@ -89,6 +92,7 @@
     mode: 0755
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
   changed_when: false
+
 
 
 - name: Create elasticsearch data directory
