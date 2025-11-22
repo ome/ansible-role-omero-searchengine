@@ -185,6 +185,63 @@
       xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
       xpack.security.transport.ssl.keystore.password: "{{ keystore_password }}"
       xpack.security.transport.ssl.truststore.password: "{{ keystore_password }}"
+      discovery.type: single-node
+    #########################################################################
+    networks:
+    - name: "searchengine-net"
+      ipv4_address: 10.11.0.2
+    published_ports:
+      - "9201:9200"
+      - "9301:9300"
+    state: started
+    restart_policy: always
+    volumes:
+    - "{{ apps_folder }}/searchengine/elasticsearch/node1/data:/var/lib/elasticsearch"
+    - "{{ apps_folder }}/searchengine/elasticsearch/node1/logs:/var/log/elasticsearch"
+    - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
+    - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
+  when: elasticsearch_no_nodes == 1
+
+- name: Run first docker elasticsearch main node
+  become: yes
+  docker_container:
+    image: "{{ search_engineelasticsearch_docker_image }}"
+    name: "searchengine_elasticsearch_node1"
+    cleanup: True
+    ulimits:
+      - 'memlock:-1:-1'
+    env:
+      path.data: "/var/lib/elasticsearch"
+      path.logs: "/var/log/elasticsearch"
+      path.repo: "{{ elasticsearch_backup_folder }}"
+      node.name: searchengine_elasticsearch_node1
+      bootstrap.memory_lock: "true"
+      network.host: 0.0.0.0
+      cluster.name: "searchengine-cluster"
+      cluster.initial_master_nodes: "{{ elasticsearch_nodes | join(',') }}"
+      http.host: 0.0.0.0
+      #http.port: 9200
+      ES_JAVA_OPTS: "{{ ES_JAVA_OPTIONS }}"
+      #"-Xms2g -Xmx2g"
+      ingest.geoip.downloader.enabled: "false"
+      ########################################
+      es_api_basic_auth_username: "elastic"
+      ELASTIC_PASSWORD: "{{ ELASTIC_PASSWORD }}"
+      es_validate_certs: "no"
+      es_enable_http_ssl: "true"
+      xpack.security.http.ssl.enabled: "true"
+      xpack.security.enabled: "true"
+      xpack.security.authc.realms.file.file1.order: "0"
+      xpack.security.authc.realms.native.native1.order: "1"
+      xpack.security.http.ssl.keystore.path: "/usr/share/elasticsearch/config/certificates/elastic-ca.p12"
+      xpack.security.http.ssl.truststore.password: "{{ ca_password }}"
+      xpack.security.http.ssl.keystore.password: "{{ ca_password }}"
+      xpack.security.transport.ssl.enabled: "true"
+      xpack.security.transport.ssl.verification_mode: "certificate"
+      xpack.security.transport.ssl.keystore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
+      xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
+      xpack.security.transport.ssl.keystore.password: "{{ keystore_password }}"
+      xpack.security.transport.ssl.truststore.password: "{{ keystore_password }}"
       #discovery.type: single-node
     #########################################################################
     networks:
@@ -200,6 +257,7 @@
     - "{{ apps_folder }}/searchengine/elasticsearch/node1/logs:/var/log/elasticsearch"
     - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
+  when: elasticsearch_no_nodes > 1
 
 
 - name: Run docker elasticsearch for the remaining nodes
