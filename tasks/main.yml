@@ -29,6 +29,7 @@
 - name:  Import ome.docker role
   ansible.builtin.import_role:
     name: ome.docker
+    docker_systemd_setup: false
 
 
 - name: Check if a elastic node data folder exists
