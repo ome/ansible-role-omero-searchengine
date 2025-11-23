@@ -129,7 +129,7 @@
   ansible.builtin.import_tasks: searchengine.yml
 
 
-- name: Check Elastic search
+- name: Check Elasticsearch
   ansible.builtin.command: 'curl -I  -k -u "elastic:elastic_password" https://127.0.0.1:9201/'
   register: elasticsearch_run
   until: elasticsearch_run.rc == 0

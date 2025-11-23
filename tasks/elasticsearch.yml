@@ -227,6 +227,15 @@
   when: not container_info_elasticsearch_node1.exists and elasticsearch_no_nodes == 1
 
 
+- name: check elasticsearch node
+  command: "docker log searchengine_elasticsearch_node1"
+  register: node1_log
+  when: not container_info_elasticsearch_node1.exists
+
+- name: display elasticsearch logs
+  msg: "Logs is {{ node1_log }}"
+  when: not container_info_elasticsearch_node1.exists
+
 - name: Run docker elasticsearch for the remaining nodes
   become: yes
   community.docker.docker_container:
