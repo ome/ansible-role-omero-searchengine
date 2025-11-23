@@ -1,8 +1,0 @@
-- name: aer wap memory
-  ansible.builtin.shell: |
-    fallocate -1 2g /swapfile
-    chmod 600 /swapfile
-    mkswap /swapfile
-    swapon /swapfile
-    ulimit -n 65536
-    ulimit -u 4096
