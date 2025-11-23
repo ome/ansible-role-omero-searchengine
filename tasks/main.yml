@@ -138,6 +138,14 @@
   debug:
     var: node1_log2
 
+- name: check elasticsearch node3
+  command: "docker  ps"
+  register: node1_log3
+
+
+- name: display elasticsearch logs3
+  debug:
+    var: node1_log3
 
 - name: Check Elasticsearch
   ansible.builtin.command: 'curl -I  -k -u "elastic:my_password" https://127.0.0.1:9201/'
