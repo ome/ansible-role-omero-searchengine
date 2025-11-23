@@ -21,4 +21,5 @@
     ES_JAVA_OPTIONS: "-Xms512m -Xmx512m"
     elasticsearch_no_nodes: 1
     ELASTIC_PASSWORD: my_password
+    test_mode: true
 

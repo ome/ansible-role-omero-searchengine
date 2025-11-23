@@ -8,7 +8,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 def test_create_search_index(host):
     out = host.check_output(
-        'curl -I  -k -u "elastic:elastic_password" https://127.0.0.1:9201/')
+        'curl -I  -k -u "elastic:my_password" https://127.0.0.1:9201/')
     assert '200' in out
 
 #def test_nginx_gateway(host):
