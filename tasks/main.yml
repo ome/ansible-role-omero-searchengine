@@ -123,11 +123,11 @@
   when: not elastic_node_data_folder.stat.exists
   #elasticsearch.yml
 
-- name: deploy nginx for the search engine
-  ansible.builtin.import_tasks: nginx.yml
+#- name: deploy nginx for the search engine
+#  ansible.builtin.import_tasks: nginx.yml
 
-- name: deploy redis
-  ansible.builtin.import_tasks: redis.yml
+#- name: deploy redis
+#  ansible.builtin.import_tasks: redis.yml
 
 - name: deploy searchengine
   ansible.builtin.import_tasks: searchengine.yml
