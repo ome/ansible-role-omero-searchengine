@@ -181,7 +181,7 @@
       bootstrap.memory_lock: "true"
       network.host: 0.0.0.0
       cluster.name: "searchengine-cluster"
-      cluster.initial_master_nodes: "{{ elasticsearch_nodes | join(',') }}"
+      # cluster.initial_master_nodes: "{{ elasticsearch_nodes | join(',') }}"
       http.host: 0.0.0.0
       #http.port: 9200
       #ES_JAVA_OPTS: "{{ ES_JAVA_OPTIONS }}"
