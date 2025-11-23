@@ -148,7 +148,7 @@
     var: node1_log3
 
 - name: Check Elasticsearch
-  ansible.builtin.command: 'curl -I  -k -u "elastic:my_password" https://127.0.0.1:9201/'
+  ansible.builtin.command: 'curl -k -u "elastic:my_password" https://127.0.0.1:9201/'
   register: elasticsearch_run
   until: elasticsearch_run.rc == 0
   retries: 12
