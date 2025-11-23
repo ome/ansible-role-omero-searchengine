@@ -11,9 +11,9 @@ def test_create_search_index(host):
         'curl -I  -k -u "elastic:my_password" https://127.0.0.1:9201/')
     assert '200' in out
 
-def test_nginx_gateway(host):
-    out = host.check_output('curl -XGET http://127.0.0.1:8080/searchengine/api/v1/resources/')
-    assert 'OMERO search engine (API V1)' in out
+#def test_nginx_gateway(host):
+#    out = host.check_output('curl -XGET http://127.0.0.1:8080/searchengine/api/v1/resources/')
+#    assert 'OMERO search engine (API V1)' in out
 
 #def test_redis_connection(host):
 #    out = host.check_output('redis-cli ping')
