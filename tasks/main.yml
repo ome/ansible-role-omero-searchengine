@@ -125,11 +125,11 @@
 
 - name: deploy nginx for the search engine
   ansible.builtin.import_tasks: nginx.yml
-  when: test_mode
+  when: not test_mode
 
 - name: deploy redis
   ansible.builtin.import_tasks: redis.yml
-  when: test_mode
+  when: not test_mode
 
 - name: deploy searchengine
   ansible.builtin.import_tasks: searchengine.yml
