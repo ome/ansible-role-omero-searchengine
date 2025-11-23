@@ -228,7 +228,7 @@
 
 
 - name: check elasticsearch node
-  command: "docker log searchengine_elasticsearch_node1"
+  command: "docker logs searchengine_elasticsearch_node1"
   register: node1_log
   when: not container_info_elasticsearch_node1.exists
 
