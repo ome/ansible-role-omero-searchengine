@@ -163,6 +163,20 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
+- name: configure dump folder for searchengine
+  become: yes
+  community.docker.docker_container:
+    image: "{{ searchengine_docker_image }}"
+    name: searchengine_cache
+    cleanup: True
+    auto_remove: yes
+    #auto_remove: yes
+    command: "set_data_dump_folder -d {{ DATA_DUMP_FOLDER }}"
+    state: started
+    volumes:
+    - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+  changed_when: false
+
 - name: configure secret key for docker searchengine
   become: yes
   community.docker.docker_container:
@@ -309,6 +323,7 @@
   when: not container_info_searchengine_f.exists
 
 
+#ansible-playbook install_searchengine.yml  --tags "indexer"
 - name: Index the default data source
   become: yes
   community.docker.docker_container:
@@ -326,6 +341,7 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   tags: [never, indexer]
 
+#ansible-playbook install_searchengine.yml  --tags "backup"
 - name: backup the searchengine data
   become: yes
   community.docker.docker_container:
@@ -342,7 +358,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   tags: [never, backup]
-
+#ansible-playbook install_searchengine.yml  --tags "restore"
 - name: restore the searchengine data
   become: yes
   community.docker.docker_container:
@@ -360,6 +376,8 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   tags: [never, restore]
 
+
+#ansible-playbook install_searchengine.yml  --tags "bff_projects"
 - name: dump project to BFF format
   become: yes
   community.docker.docker_container:
@@ -377,6 +395,7 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   tags: [never, bff_projects]
 
+#ansible-playbook install_searchengine.yml  --tags "bff_screens"
 - name: dump screens to BFF format
   become: yes
   community.docker.docker_container:
