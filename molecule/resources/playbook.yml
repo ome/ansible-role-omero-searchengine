@@ -3,18 +3,18 @@
   hosts: all
   tasks:
 
-  - name: install redis
-    ansible.builtin.dnf:
-      name: redis
-      state: present
-    become: yes
+  #- name: install redis
+  #  ansible.builtin.dnf:
+  #    name: redis
+  #    state: present
+  #  become: yes
 
-  - name: disable installed redis service installed on the host
-    ansible.builtin.systemd_service:
-      name: redis
-      state: stopped
-      enabled: false
-    become: yes
+  #- name: disable installed redis service installed on the host
+  #  ansible.builtin.systemd_service:
+  #    name: redis
+  #    state: stopped
+  #    enabled: false
+  #  become: yes
 
   roles:
   - role: ome.omero_searchengine
