@@ -439,16 +439,3 @@
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   tags: [never, bff_screens]
-
-- name: copy adjust containers files script to the host machine
-  ansible.builtin.template:
-    src: adjust_containers_files.sh.j2
-    dest: /tmp/adjust_containers_files.sh
-    mode: '0755'
-  tags: [never, set_nginx_containers_files]
-
-- name: Execute the templated script
-  become: yes
-  ansible.builtin.command: bash /tmp/adjust_containers_files.sh
-  tags: [never, set_nginx_containers_files]
-
