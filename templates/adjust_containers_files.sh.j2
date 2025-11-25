@@ -1,4 +1,6 @@
-find  {{ DATA_DUMP_FOLDER }}/{{ default_datasource }}/csv_bff -type d -exec chmod 755 {} \;
-find  {{ DATA_DUMP_FOLDER }}/{{ default_datasource }}/csv_bff -type f -exec chmod 644 {} \;
-chown -R nginx:nginx {{ DATA_DUMP_FOLDER }}/{{ default_datasource }}/csv_bff
-chcon -Rt httpd_sys_content_t {{ DATA_DUMP_FOLDER }}/{{ default_datasource }}/csv_bff
+#!/bin/sh
+
+find  {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -type d -exec chmod 755 {} \;
+find  {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -type f -exec chmod 644 {} \;
+chown -R nginx:nginx {{ data_dump_folder }}/{{ default_datasource }}/csv_bff
+chcon -Rt httpd_sys_content_t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff

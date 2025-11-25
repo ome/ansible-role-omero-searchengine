@@ -20,7 +20,7 @@
         ipv4_address: 10.11.0.15
     # network_mode: "host"
     published_ports:
-      - "6379:6379"
+      - "{{ redis_port }}:6379"
     volumes:
       - "{{ apps_folder }}/searchengine/data_dump/redis:/var/lib/redis"
     restart_policy: always

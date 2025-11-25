@@ -125,11 +125,11 @@
       #ES_JAVA_OPTS: "{{ ES_JAVA_OPTIONS }}"
       #this one should be added when the cluster is only one node
       # discovery.type: single-node
-      ES_JAVA_OPTS: " {{ ES_JAVA_OPTIONS }}"
+      ES_JAVA_OPTS: " {{ es_java_options }}"
       ingest.geoip.downloader.enabled: "false"
       ########################################
       es_api_basic_auth_username: "elastic"
-      ELASTIC_PASSWORD: "{{ ELASTIC_PASSWORD }}"
+      ELASTIC_PASSWORD: "{{ elastic_password }}"
       es_validate_certs: "no"
       es_enable_http_ssl: "true"
       xpack.security.http.ssl.enabled: "true"
@@ -187,11 +187,11 @@
       #ES_JAVA_OPTS: "{{ ES_JAVA_OPTIONS }}"
       #this one should be added when the cluster is only one node
       discovery.type: single-node
-      ES_JAVA_OPTS: " {{ ES_JAVA_OPTIONS }}"
+      ES_JAVA_OPTS: " {{ es_java_options }}"
       ingest.geoip.downloader.enabled: "false"
       ########################################
       es_api_basic_auth_username: "elastic"
-      ELASTIC_PASSWORD: "{{ ELASTIC_PASSWORD }}"
+      ELASTIC_PASSWORD: "{{ elastic_password }}"
       es_validate_certs: "no"
       es_enable_http_ssl: "true"
       xpack.security.http.ssl.enabled: "true"
@@ -260,11 +260,11 @@
       http.host: 0.0.0.0
       #http.port: 9200
       #ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-      ES_JAVA_OPTS: " {{ ES_JAVA_OPTIONS }}"
+      ES_JAVA_OPTS: " {{ es_java_options }}"
       ingest.geoip.downloader.enabled: "false"
       ####################################################################
       es_api_basic_auth_username: "elastic"
-      ELASTIC_PASSWORD: "{{ ELASTIC_PASSWORD }}"
+      ELASTIC_PASSWORD: "{{ elastic_password }}"
       es_validate_certs: "no"
       es_enable_http_ssl: "true"
       xpack.security.http.ssl.enabled: "true"

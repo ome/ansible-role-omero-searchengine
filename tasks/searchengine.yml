@@ -126,7 +126,7 @@
     name: searchengine_IDR_TEST_FILE
     cleanup: True
     auto_remove: yes
-    command: "set_idr_test_file -i {{ IDR_TEST_FILE_URL }}"
+    command: "set_idr_test_file -i {{ idr_test_file_url }}"
     state: started
     volumes:
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
@@ -139,7 +139,7 @@
     name: searchengine_cache
     cleanup: True
     auto_remove: yes
-    command: "set_cache_folder -c /etc/searchengine/cachedata"
+    command: "set_cache_folder -c {{ cache_folder }}"
     #networks:
     #- name: searchengine-net
     #published_ports:
@@ -156,7 +156,7 @@
     name: searchengine_quries_folder
     cleanup: True
     auto_remove: yes
-    command: "set_queries_folder -q {{ QUIRES_FOLDER }}"
+    command: "set_queries_folder -q {{ quires_folder }}"
     #networks:
     #- name: searchengine-net
     #published_ports:
@@ -188,7 +188,7 @@
     cleanup: True
     auto_remove: yes
     #auto_remove: yes
-    command: "set_data_dump_folder -d {{ DATA_DUMP_FOLDER }}"
+    command: "set_data_dump_folder -d {{ data_dump_folder }}"
     state: started
     volumes:
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
@@ -216,7 +216,7 @@
     cleanup: True
     auto_remove: yes
     #auto_remove: yes
-    command: "set_elasticsearch_password -e {{ ELASTIC_PASSWORD }}"
+    command: "set_elasticsearch_password -e {{ elastic_password }}"
     state: started
     volumes:
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
@@ -230,7 +230,7 @@
     cleanup: True
     auto_remove: yes
     #auto_remove: yes
-    command: "set_redis_url -r {{ REDIS_URL }}"
+    command: "set_redis_url -r {{ redis_url }}"
     state: started
     volumes:
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
@@ -408,7 +408,7 @@
     image: "{{ searchengine_docker_image }}"
     name: dump_projects_BFF
     cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r project  -b True -t {{ DATA_DUMP_FOLDER }}/{{ default_datasource }}/csv_bff -o True"
+    command: "dump_searchengine_data -d {{ default_datasource }} -r project  -b True -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
              #dump_searchengine_data -d idr -r project                          -b True -t /data/data_dump/idr/csv_bff -o True
     networks:
       - name: searchengine-net
@@ -428,7 +428,7 @@
     image: "{{ searchengine_docker_image }}"
     name: dump_screens_BFF
     cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -b True -t {{ DATA_DUMP_FOLDER }}/{{ default_datasource }}/csv_bff -o True"
+    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -b True -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
     networks:
       - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
@@ -439,16 +439,3 @@
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   tags: [never, bff_screens]
-
-- name: copy adjust containers files script to the host machine
-  ansible.builtin.template:
-    src: adjust_containers_files.sh.j2
-    dest: /tmp/adjust_containers_files.sh
-    mode: '0755'
-  tags: [never, set_nginx_containers_files]
-
-- name: Execute the templated script
-  become: yes
-  ansible.builtin.command: bash /tmp/adjust_containers_files.sh
-  tags: [never, set_nginx_containers_files]
-

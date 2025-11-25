@@ -1,25 +1,11 @@
 ---
 - name: Converge
   hosts: all
-  tasks:
-
-  #- name: install redis
-  #  ansible.builtin.dnf:
-  #    name: redis
-  #    state: present
-  #  become: yes
-
-  #- name: disable installed redis service installed on the host
-  #  ansible.builtin.systemd_service:
-  #    name: redis
-  #    state: stopped
-  #    enabled: false
-  #  become: yes
 
   roles:
   - role: ome.omero_searchengine
-    ES_JAVA_OPTIONS: "-Xms512m -Xmx512m"
+    es_java_options: "-Xms512m -Xmx512m"
     elasticsearch_no_nodes: 1
-    ELASTIC_PASSWORD: my_password
+    elastic_password: my_password
     test_mode: true
 

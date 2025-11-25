@@ -38,15 +38,26 @@
       - name: host
 
     published_ports:
-      - "{{ NGINX_PORT }}:{{ NGINX_PORT }}"
+      - "{{ nginx_port }}:{{ nginx_port }}"
     volumes:
       - "{{ apps_folder }}/searchengine/nginx/conf.d/searchengine.conf:/etc/nginx/conf.d/searchengine.conf"
       - "{{ apps_folder }}/searchengine/nginx/log:/var/log/nginx"
-      - "{{ apps_folder }}/data_dump:{{ DATA_DUMP_FOLDER }}"
+      - "{{ apps_folder }}/data_dump:{{ data_dump_folder }}"
     state: started
     restart_policy: always
   tags: [always, nginx]
 
 
+- name: copy adjust containers files script to the host machine
+  ansible.builtin.template:
+    src: adjust_containers_files.sh.j2
+    dest: /tmp/adjust_containers_files.sh
+    mode: '0755'
+  tags: [never, set_nginx_containers_files]
+
+- name: Execute the templated script
+  become: yes
+  ansible.builtin.command: bash /tmp/adjust_containers_files.sh
+  tags: [never, set_nginx_containers_files]
 
 # always qq

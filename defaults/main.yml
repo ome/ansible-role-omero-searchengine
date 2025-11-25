@@ -16,24 +16,23 @@ cache_rows: 1000
 # I think that the following two variables should be in secret
 searchengine_secret_key: search_engine_secret_key
 searchengineurlprefix: "searchengine"
-IDR_TEST_FILE_URL: "https://raw.githubusercontent.com/IDR/idr.openmicroscopy.org/master/_data/studies.tsv"
+idr_test_file_url: "https://raw.githubusercontent.com/IDR/idr.openmicroscopy.org/master/_data/studies.tsv"
 elasticsearch_no_nodes: 3
 # This should be a separate volume, cloned as part of the routine deployment process.
 elasticsearch_backup_folder: "/searchengine_backup"
 ca_password: "ca_password"
 keystore_password: "keystore_password"
-ELASTIC_PASSWORD: "elastic_password"
-REDIS_PORT: 6379
-REDIS_URL: 10.11.0.15
-ASYNCHRONOUS_SEARCH: true
-CACHE_FOLDER: /etc/searchengine/cachedata
-DATA_DUMP_FOLDER: /data/data_dump/
-DEFAULT_DATASOURCE: data_source
+elastic_password: "elastic_password"
+redis_port: 6379
+redis_url: 10.11.0.15
+asynchronous_search: true
+cache_folder: /etc/searchengine/cachedata
+data_dump_folder: /data/data_dump/
 elasticsearch_nodes: [ ]
 instances_nodes: []
 instances: {}
-NGINX_PORT: 8080
-ES_JAVA_OPTIONS: "-Xms2g -Xmx2g"
+nginx_port: 8080
+es_java_options: "-Xms2g -Xmx2g"
 no_index_processes: 2
 test_mode: false
-QUIRES_FOLDER: quires/
+quires_folder: quires/
