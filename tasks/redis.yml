@@ -1,6 +1,6 @@
 ---
 
-- name: Create redis data directory
+- name: omero searchengine | Create redis data directory
   become: yes
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/data_dump/redis"
@@ -11,7 +11,7 @@
     mode: 0700
   changed_when: false
 
-- name: Create Searchengine Redis container
+- name: omero searchengine | Create Searchengine Redis container
   community.docker.docker_container:
     name: searchengine-redis-container
     image: redis:latest

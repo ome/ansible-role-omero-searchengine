@@ -2,29 +2,38 @@
 ## create the searchengine and elasticsearch folders
 
 
-- name: Ensure sysctl is present
+- name:  omero searchengine | Ensure sysctl is present
   ansible.builtin.package:
     name: procps-ng
     state: present
   become: true
 
-- name: Ensure python3-requests is installed
+- name: omero searchengine | update curl and ca certificates
+  ansible.builtin.dnf:
+    name:
+      - curl
+      - ca-certificates
+      # - requests
+    state: latest
+    allowerasing: true
+  become: true
+
+- name: omero searchengine | Ensure python3-requests is installed
   ansible.builtin.package:
     name: python3-requests
     state: present
   become: yes
 
-- name:  Import ome.docker role
+- name:  omero searchengine | Import ome.docker role
   ansible.builtin.import_role:
     name: ome.docker
 
-
-- name: Check if a elastic node data folder exists
+- name: omero searchengine | Check if a elastic node data folder exists
   ansible.builtin.stat:
     path: "{{ apps_folder }}/searchengine/elasticsearch/node1/data"
   register: elastic_node_data_folder
 
-- name: Create app top level directory
+- name: omero searchengine | Create app top level directory
   become: yes
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine"
@@ -35,7 +44,7 @@
     mode: 0755
   changed_when: false
 
-- name: Create elasticsearch directory
+- name: omero searchengine | Create elasticsearch directory
   become: yes
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/elasticsearch"
@@ -47,7 +56,7 @@
   changed_when: false
 
 
-- name: Create elasticsearch certs folder
+- name: omero searchengine | Create elasticsearch certs folder
   become: yes
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/elasticsearch/certs"
@@ -59,7 +68,7 @@
   changed_when: false
 
 
-- name: Create elasticsearch main nodes directories
+- name: omero searchengine | Create elasticsearch main nodes directories
   become: yes
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}"
@@ -72,7 +81,7 @@
   changed_when: false
 
 
-- name: Create elasticsearch logs directory
+- name: omero searchengine | Create elasticsearch logs directory
   become: yes
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}/logs"
@@ -85,8 +94,7 @@
   changed_when: false
 
 
-
-- name: Create elasticsearch data directory
+- name: omero searchengine | Create elasticsearch data directory
   become: yes
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}/data"
@@ -99,20 +107,23 @@
   #changed_when: false
   when: not elastic_node_data_folder.stat.exists
 
+#- name: deploy optm.yml
+#  ansible.builtin.include_tasks: optm.yml
+#  when: not elastic_node_data_folder.stat.exists
 
-- name: deploy elasticsearch cluster
+- name: omero searchengine | deploy elasticsearch cluster
   ansible.builtin.include_tasks: elasticsearch.yml
   when: not elastic_node_data_folder.stat.exists
   #elasticsearch.yml
 
-- name: deploy nginx for the search engine
+- name: omero searchengine | deploy nginx for the search engine
   ansible.builtin.import_tasks: nginx.yml
   when: not test_mode
 
-- name: deploy redis
+- name: omero searchengine | deploy redis
   ansible.builtin.import_tasks: redis.yml
   when: not test_mode
 
-- name: deploy searchengine
+- name: omero searchengine | deploy searchengine
   ansible.builtin.import_tasks: searchengine.yml
 

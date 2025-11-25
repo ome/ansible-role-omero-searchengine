@@ -1,5 +1,5 @@
 ---
-- name: Create Nginx configuration directory
+- name: omero searchengine | Create Nginx configuration directory
   become: true
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/nginx/conf.d"
@@ -9,7 +9,7 @@
     mode: 0644
   changed_when: false
 
-- name: Create Nginx log directory
+- name: omero searchengine | Create Nginx log directory
   become: true
   ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/nginx/log"
@@ -19,7 +19,7 @@
     mode: 0755
   changed_when: false
 
-- name:  Copy serachengine Nginx config
+- name:  omero searchengine | Copy serachengine Nginx config
   become: true
   ansible.builtin.template:
     dest: "{{ apps_folder }}/searchengine/nginx/conf.d/searchengine.conf"
@@ -29,7 +29,7 @@
     mode: 0644
   changed_when: false
 
-- name: Run Nginx container
+- name: omero searchengine | Run Nginx container
   become: true
   community.docker.docker_container:
     name: searchengine-nginx-container

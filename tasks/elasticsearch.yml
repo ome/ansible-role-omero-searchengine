@@ -1,28 +1,28 @@
 ---
-- name: Check if IP is in use
-  set_fact:
+- name: omero searchengine | Check if IP is in use
+  ansible.builtin.set_fact:
     ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
 - name: Get info about the searchengine container
   community.docker.docker_container_info:
     name: searchengine_elasticsearch_node1
   register: container_info_elasticsearch_node1
 
-- name: Add elastic nodes to instances_nodes
+- name: omero searchengine | Add elastic nodes to instances_nodes
   ansible.builtin.set_fact:
     instances_nodes: "{{instances_nodes + [( {'name' : 'searchengine_elasticsearch_node'+item, 'dns': ['searchengine_elasticsearch_node'+item,'localhost'],'ip': '127.0.0.1'})] }}"
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
 
-- name: Add elastic nodes to instances
+- name: omero searchengine | Add elastic nodes to instances
   ansible.builtin.set_fact:
     instances: "{{instances | combine ( {'instances' : instances_nodes}) }}"
 
 #Add all elasticsearch nodes
-- name: Add elastic nodes to elasticsearch_nodes
+- name: omero searchengine | Add elastic nodes to elasticsearch_nodes
   ansible.builtin.set_fact:
     elasticsearch_nodes: '{{ elasticsearch_nodes + ["searchengine_elasticsearch_node"+item] }}'
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
 
-- name: Create docker network
+- name: omero searchengine | Create docker network
   become: yes
  #vars:
  #  ansible_python_interpreter: /usr/bin/python
@@ -35,13 +35,13 @@
 # I got some memory exceptions when start using elasticsearch cluster and
 # increasing the mmap counts limits fix this issue
 #https://www.elastic.co/guide/en/elasticsearch/reference/7.16 /vm-max-map-count.html
-- name: set vm.max_map_count to 262144 in sysctl
+- name: omero searchengine | set vm.max_map_count to 262144 in sysctl
   become: yes
   ansible.posix.sysctl: name={{ item.varname }} value={{ item.varvalue }}
   with_items:
     - { varname: "vm.max_map_count", varvalue: "262144" }
 
-- name: create CA
+- name: omero searchengine | create CA
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
@@ -58,14 +58,14 @@
   changed_when: false
   when: not container_info_elasticsearch_node1.exists
 
-- name: Wait for CA file
+- name: omero searchengine | Wait for CA file
   ansible.builtin.wait_for:
     path: "{{ apps_folder }}/searchengine/elasticsearch/certs/elastic-ca.p12"
     state: present
   register: check_ca_file_result
   when: not container_info_elasticsearch_node1.exists
 
-- name: Show wait CA file result
+- name: omero searchengine | Show wait CA file result
   debug:
     var: check_ca_file_result
   when: not container_info_elasticsearch_node1.exists
@@ -76,7 +76,7 @@
         {{ instances   |to_nice_yaml }}
   when: not container_info_elasticsearch_node1.exists
 
-- name: Create nodes' cert
+- name: omero searchengine | Create nodes' cert
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
@@ -95,7 +95,7 @@
   changed_when: false
   when: not container_info_elasticsearch_node1.exists
 
-- name: Get Docker network info
+- name: omero searchengine | Get Docker network info
   community.docker.docker_network_info:
     name: searchengine-net
   register: network_info
@@ -103,7 +103,7 @@
 - debug:
     msg: "this the value: {{ ip_taken }} "
 
-- name: Run first docker elasticsearch main node
+- name: omero searchengine | Run first docker elasticsearch main node
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
@@ -165,7 +165,7 @@
   when: not container_info_elasticsearch_node1.exists and  elasticsearch_no_nodes >1
 
 
-- name: Run first docker elasticsearch main node
+- name: omero searchengine | Run first docker elasticsearch main node
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
@@ -227,7 +227,7 @@
   when: not container_info_elasticsearch_node1.exists and elasticsearch_no_nodes == 1
 
 
-- name: check elasticsearch node
+- name: omero searchengine | check elasticsearch node
   community.docker.docker_container_info:
     name: searchengine_elasticsearch_node1
   register: node1_log
@@ -235,11 +235,11 @@
 
 
 - name: display elasticsearch logs
-  debug:
+  ansible.builtin.debug:
     var: node1_log
   when: not container_info_elasticsearch_node1.exists
 
-- name: Run docker elasticsearch for the remaining nodes
+- name: omero searchengine | Run docker elasticsearch for the remaining nodes
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
@@ -285,7 +285,7 @@
       cluster.routing.allocation.disk.watermark.flood_stage: "98%"
       ####################################################################
 
-    networks:
+    community.docker.networks:
     - name: "searchengine-net"
       ipv4_address: 10.11.0.{{ item | int + 1 }}
     published_ports:

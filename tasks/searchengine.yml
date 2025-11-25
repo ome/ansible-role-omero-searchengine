@@ -1,24 +1,24 @@
 ---
 # Configure and run search Engine
 
-- name: Get info about the searchengine container
+- name: omero searchengine | Get info about the searchengine container
   become: true
   community.docker.docker_container_info:
     name: searchengine
   register: container_info_searchengine_f
 
-- name: Debug search container state
+- name: omero searchengine | Debug search container state
   ansible.builtin.debug:
     msg: "Container '{{ container_info_searchengine_f }}' is in state: {{ container_info_searchengine_f.exists}}"
 
-- name: set elasticsearch_nodes_urls
+- name: omero searchengine | set elasticsearch_nodes_urls
   ansible.builtin.set_fact:
     elasticsearch_nodes_urls: []
 
 
-- name: Create searchengine folder directory
+- name: omero searchengine | Create searchengine folder directory
   become: yes
-  file:
+  ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/searchengine"
     recurse: yes
     state: directory
@@ -27,27 +27,27 @@
     mode: 0755
   when: not container_info_searchengine_f.exists
 
-- name: Create searchengine logs directory
+- name: omero searchengine | Create searchengine logs directory
   become: yes
-  file:
+  ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/searchengine/logs"
     state: directory
     owner: 1000
     group: root
     mode: 0755
 
-- name: Create searchengine data_dump directory
+- name: omero searchengine | Create searchengine data_dump directory
   become: yes
-  file:
+  ansible.builtin.file:
     path: "{{ apps_folder }}/data_dump/{{ default_datasource }}"
     state: directory
     owner: 1000
     group: root
     mode: 0755
 
-- name: Create searchengine cached directory
+- name: omero searchengine | Create searchengine cached directory
   become: yes
-  file:
+  ansible.builtin.file:
     path: "{{ apps_folder }}/searchengine/searchengine/cacheddata"
     state: directory
     owner: 1000
@@ -55,12 +55,12 @@
     mode: 0755
 
 #Add all elasticsearch nodes
-- name: Add elastic nodes to elasticsearch_nodes_urls
-  set_fact:
+- name: omero searchengine | Add elastic nodes to elasticsearch_nodes_urls
+  ansible.builtin.set_fact:
     elasticsearch_nodes_urls: '{{ elasticsearch_nodes_urls + ["https://10.11.0."+item+":9200"] }}'
   with_sequence: start=2 count={{ elasticsearch_no_nodes }}
 
-- name: configure elasticsearch backup folder for docker searchengine
+- name: omero searchengine | configure elasticsearch backup folder for docker searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -73,7 +73,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure elasticsearch for docker searchengine
+- name: omero searchengine | configure elasticsearch for docker searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -86,7 +86,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure database for docker searchengine
+- name: omero searchengine | configure database for docker searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -105,7 +105,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: set default data source
+- name: omero searchengine | set default data source
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -119,7 +119,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure IDR_TEST_FILE_URL item
+- name: omero searchengine | configure IDR_TEST_FILE_URL item
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -132,7 +132,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure cache folder  for docker searchengine
+- name: omero searchengine | configure cache folder  for docker searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -149,7 +149,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure quries folder for  searchengine
+- name: omero searchengine | configure quries folder for  searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -166,7 +166,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure number of cache rows for docker searchengine
+- name: omero searchengine | configure number of cache rows for docker searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -180,7 +180,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure dump folder for searchengine
+- name: omero searchengine | configure dump folder for searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -194,7 +194,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure secret key for docker searchengine
+- name: omero searchengine | configure secret key for docker searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -208,7 +208,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure elastics search password
+- name: omero searchengine | configure elastics search password
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -222,7 +222,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: configure elastics redis url
+- name: omero searchengine | configure elastics redis url
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -238,7 +238,7 @@
 
 # automatic refreshing  when configuration change is detected
 
-- name: Set automatic refreshing the configuration
+- name: omero searchengine | Set automatic refreshing the configuration
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -251,7 +251,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: Set set_no_processes
+- name: omero searchengine | Set set_no_processes
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -266,7 +266,7 @@
 
 #set_no_processes
 
-- name: Run docker searchengine  test create index -r image1
+- name: omero searchengine | Run docker searchengine  test create index -r image1
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -285,7 +285,7 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   when: not container_info_searchengine_f.exists
 
-- name: Run docker searchengine
+- name: omero searchengine | Run docker searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -306,7 +306,7 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   when: not container_info_searchengine_f.exists
 
-- name: Run docker celery job (Synchronize queries)
+- name: omero searchengine | Run docker celery job (Synchronize queries)
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -324,7 +324,7 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   when: not container_info_searchengine_f.exists
 
-- name: Run docker searchengine run celery beat
+- name: omero searchengine | Run docker searchengine run celery beat
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -345,7 +345,7 @@
 
 
 #ansible-playbook install_searchengine.yml  --tags "indexer"
-- name: Index the default data source
+- name: omero searchengine | Index the default data source
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -364,7 +364,7 @@
   tags: [never, indexer]
 
 #ansible-playbook install_searchengine.yml  --tags "backup"
-- name: backup the searchengine data
+- name: omero searchengine | backup the searchengine data
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -382,7 +382,7 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   tags: [never, backup]
 #ansible-playbook install_searchengine.yml  --tags "restore"
-- name: restore the searchengine data
+- name: omero searchengine | restore the searchengine data
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -402,7 +402,7 @@
 
 
 #ansible-playbook install_searchengine.yml  --tags "bff_projects"
-- name: dump project to BFF format
+- name: omero searchengine | dump project to BFF format
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -422,7 +422,7 @@
   tags: [never, bff_projects]
 
 #ansible-playbook install_searchengine.yml  --tags "bff_screens"
-- name: dump screens to BFF format
+- name: omero searchengine | dump screens to BFF format
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
