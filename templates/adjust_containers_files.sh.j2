@@ -1,3 +1,5 @@
+#!/bin/sh
+
 find  {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -type d -exec chmod 755 {} \;
 find  {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -type f -exec chmod 644 {} \;
 chown -R nginx:nginx {{ data_dump_folder }}/{{ default_datasource }}/csv_bff
