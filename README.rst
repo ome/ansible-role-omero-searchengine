@@ -96,7 +96,7 @@ The role can also be used for:
 
     ansible-playbook install_searchengine.yml  --tags "bff_projects"
 
-Assuming the installation playbook is `install_searchengine.yml`
+Assuming the installation playbook name is `install_searchengine.yml`
 
 Author Information
 ------------------
