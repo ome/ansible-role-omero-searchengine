@@ -15,28 +15,27 @@ OMERO.docker.web is required.
 Role Variables
 --------------
 
-- `apps_folder'`: The application based older
-- `database_server_url`: The omero database url
-- `database_port`: The omero database port
-- `database_name`: The omero database name (e.g. omero)
-- `database_username`: the omero database user name
-- `database_user_password`: the database user password
+- `apps_folder'`: The application data folder
+- `database_server_url`: The database URL
+- `database_port`: The database port
+- `database_name`: The database name (e.g., omero)
+- `database_username`: The database username
+- `database_user_password`: The database user password
 - `default_datasource`: The default datasource
-- `search_engineelasticsearch_docker_image`: The elasticsearch image, default is `docker.elastic.co/elasticsearch/elasticsearch:9.2.1`
-- `searchengine_docker_image`: The searchengine docker image
-- `automatic_refresh`: if the searchengine configuration is modified, the app will load the new configure in case of this varibale is true
+- `search_engineelasticsearch_docker_image`: The Elasticsearch image (default: `docker.elastic.co/elasticsearch/elasticsearch:9.2.1`)
+- `searchengine_docker_image`: The search engine Docker image
+- `automatic_refresh`: Whether the searchengine  should reload configuration when modified (true/false)
 - `searchengine_secret_key`: The search engine secret key
-- `searchengineurlprefix`: Url prefix for the searchengine, default is `searchengine`
-- `elasticsearch_no_nodes`: Number of nodes in the elasticsearch cluster3
-- `elasticsearch_backup_folder`: Elasticsearch data backup folder
-- `ca_password`:  Ca password for the Elasticsearch certificate
-- `keystore_password`: keystore password for the Elasticsearch cluster
+- `searchengineurlprefix`: The URL prefix for the searchengine (default: searchengine)
+- `elasticsearch_no_nodes`: The number of nodes in the Elasticsearch cluster
+- `elasticsearch_backup_folder`: The Elasticsearch data backup folder
+- `ca_password`:  The CA password for the Elasticsearch certificate
+- `keystore_password`: The keystore password for the Elasticsearch cluster
 - `elastic_password`: The password for the Elasticsearch user
-- `data_dump_folder`: The data dump folder, will be used in case of asynchronize search and containers BFF
-- `nginx_port`: The port which Nginx should use
-- `cache_rows`: The number of the rows which indexing process can handle on a time
-- `no_index_processes`: Number of parallel processes which can be be used in the indexing process
-
+- `data_dump_folder`:The data dump folder (used for asynchronous search and container BFFs)
+- `nginx_port`: The port Nginx should use
+- `cache_rows`: The number of rows the indexing process can handle at one time
+- `no_index_processes`: The number of parallel processes available for the indexing process
 
 Example Playbook
 ----------------
