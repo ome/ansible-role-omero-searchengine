@@ -1,9 +1,6 @@
 OMERO Searchengine
 ==================
 
-[![Actions Status](https://github.com/ome/ansible-role-omero-ms-image-region/workflows/Molecule/badge.svg)](https://github.com/ome/ansible-role-omero-ms-image-region/actions)
-[![Ansible Role](https://img.shields.io/badge/ansible--galaxy-omero_ms_image_region-blue.svg)](https://galaxy.ansible.com/ui/standalone/roles/ome/omero_ms_image_region/)
-
 Installs and configures the OMERO Searchengine.
 
 Dependencies
