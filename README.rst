@@ -77,7 +77,7 @@ The role can also be used for:
 
         ansible-playbook install_searchengine.yml  --tags "indexer"
 
-- back the Elasticsearch data
+- Backup the Elasticsearch data
 ::
 
     ansible-playbook install_searchengine.yml  --tags "backup"
@@ -86,12 +86,12 @@ The role can also be used for:
 ::
 
     ansible-playbook install_searchengine.yml  --tags "restore"
-- Generate the BFF files for the for screens:
+- Generate the BFF files for the for the screens:
 ::
 
     ansible-playbook install_searchengine.yml  --tags "bff_screens"
 
-- Generate the BFF files for the for screens:
+- Generate the BFF files for the for the projects:
 ::
 
     ansible-playbook install_searchengine.yml  --tags "bff_projects"
