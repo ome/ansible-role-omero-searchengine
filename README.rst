@@ -68,6 +68,36 @@ Example Playbook
          - elasticsearch_no_nodes: 3
          - nginx_port: 8080
 
+
+The role can also be used for:
+
+
+- index the data
+::
+
+        ansible-playbook install_searchengine.yml  --tags "indexer"
+
+- Backup the Elasticsearch data
+::
+
+    ansible-playbook install_searchengine.yml  --tags "backup"
+
+- Restore the Elasticsearch data
+::
+
+    ansible-playbook install_searchengine.yml  --tags "restore"
+- Generate the BFF files for the for the screens:
+::
+
+    ansible-playbook install_searchengine.yml  --tags "bff_screens"
+
+- Generate the BFF files for the for the projects:
+::
+
+    ansible-playbook install_searchengine.yml  --tags "bff_projects"
+
+Assuming the installation playbook is `install_searchengine.yml`
+
 Author Information
 ------------------
 
