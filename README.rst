@@ -37,8 +37,11 @@ Role Variables
 - `cache_rows`: The number of the rows which indexing process can handle on a time
 - `no_index_processes`: Number of parallel processes which can be be used in the indexing process
 
-Example Playbook;
------------------
+
+Example Playbook
+----------------
+::
+
     - name: Deploying search engine
       connection: local
       hosts: localhost
