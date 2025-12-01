@@ -67,7 +67,7 @@ Example Playbook
          - no_index_processes: 6
          - elasticsearch_no_nodes: 3
          - nginx_port: 8080
-         - search_engineelasticsearch_docker_image: khaledk2/searchengine:new_packages
+         - searchengine_docker_image: khaledk2/searchengine:new_packages
 
 
 The role can also be used for:
