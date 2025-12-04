@@ -105,7 +105,7 @@
     mode: 0755
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
   #changed_when: false
-  when: not elastic_node_data_folder.stat.exists
+  when: not elastic_node_data_folder.stat.exists | force_update
 
 #- name: deploy optm.yml
 #  ansible.builtin.include_tasks: optm.yml
@@ -113,7 +113,7 @@
 
 - name: omero searchengine | deploy elasticsearch cluster
   ansible.builtin.include_tasks: elasticsearch.yml
-  when: not elastic_node_data_folder.stat.exists
+  when: not elastic_node_data_folder.stat.exists or force_update
   #elasticsearch.yml
 
 - name: omero searchengine | deploy nginx for the search engine

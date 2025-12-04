@@ -35,3 +35,4 @@ es_java_options: "-Xms2g -Xmx2g"
 no_index_processes: 2
 test_mode: false
 quires_folder: quires/
+force_update: false
