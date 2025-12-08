@@ -401,15 +401,14 @@
   tags: [never, restore]
 
 
-#ansible-playbook install_searchengine.yml  --tags "bff_projects"
-- name: omero searchengine | dump project to BFF format
+#ansible-playbook install_searchengine.yml  --tags "dump_projects"
+- name: omero searchengine | dump project
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: dump_projects_BFF
     cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r project  -b True -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
-             #dump_searchengine_data -d idr -r project                          -b True -t /data/data_dump/idr/csv_bff -o True
+    command: "dump_searchengine_data -d {{ default_datasource }} -r project  -f {{ default_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
     networks:
       - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
@@ -419,16 +418,16 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  tags: [never, bff_projects]
+  tags: [never, dump_projects]
 
 #ansible-playbook install_searchengine.yml  --tags "bff_screens"
-- name: omero searchengine | dump screens to BFF format
+- name: omero searchengine | dump screens
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: dump_screens_BFF
     cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -b True -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
+    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -f {{ default_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
     networks:
       - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
@@ -438,4 +437,4 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  tags: [never, bff_screens]
+  tags: [never, dump_screens]

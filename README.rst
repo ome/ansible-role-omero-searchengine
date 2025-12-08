@@ -33,6 +33,7 @@ Role Variables
 - `nginx_port`: The port Nginx should use
 - `cache_rows`: The number of rows the indexing process can handle at one time
 - `no_index_processes`: The number of parallel processes available for the indexing process
+- 'default_output_format': The data can be dumped in either BFF or JSON format. default is JSON
 
 Example Playbook
 ----------------
@@ -67,7 +68,7 @@ Example Playbook
          - no_index_processes: 6
          - elasticsearch_no_nodes: 3
          - nginx_port: 8080
-
+         - default_output_format: "bff"
 
 The role can also be used for:
 
@@ -86,15 +87,15 @@ The role can also be used for:
 ::
 
     ansible-playbook install_searchengine.yml  --tags "restore"
-- Generate the BFF files for the for the screens:
+- Dump the screens data:
 ::
 
-    ansible-playbook install_searchengine.yml  --tags "bff_screens"
+    ansible-playbook install_searchengine.yml  --tags "dump_screens"
 
-- Generate the BFF files for the for the projects:
+- Dump the the projects data:
 ::
 
-    ansible-playbook install_searchengine.yml  --tags "bff_projects"
+    ansible-playbook install_searchengine.yml  --tags "dump_projects"
 
 Assuming the installation playbook name is `install_searchengine.yml`
 
