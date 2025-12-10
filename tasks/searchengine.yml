@@ -45,6 +45,15 @@
     group: root
     mode: 0755
 
+- name: omero searchengine | Create searchengine async quires directory
+  become: yes
+  ansible.builtin.file:
+    path: "{{ apps_folder }}/data_dump/{{ quires_folder }}"
+    state: directory
+    owner: 1000
+    group: root
+    mode: 0755
+
 - name: omero searchengine | Create searchengine cached directory
   become: yes
   ansible.builtin.file:
@@ -406,7 +415,7 @@
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
-    name: dump_projects_BFF
+    name: dump_projects
     cleanup: True
     command: "dump_searchengine_data -d {{ default_datasource }} -r project  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
     networks:
@@ -425,7 +434,7 @@
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
-    name: dump_screens_BFF
+    name: dump_screens
     cleanup: True
     command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
     networks:
