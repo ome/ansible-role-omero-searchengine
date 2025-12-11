@@ -273,7 +273,18 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-#set_no_processes
+- name: omero searchengine | Set max page size
+  become: yes
+  community.docker.docker_container:
+    image: "{{ searchengine_docker_image }}"
+    name: set_max_page_size
+    cleanup: True
+    auto_remove: yes
+    command: "set_MAX_PAGE_SIZE -n {{ max_page_size }}"
+    state: started
+    volumes:
+      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+  changed_when: false
 
 - name: omero searchengine | Run docker searchengine  test create index -r image1
   become: yes
