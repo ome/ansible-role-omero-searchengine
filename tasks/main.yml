@@ -121,5 +121,5 @@
 
 - name: omero searchengine | deploy searchengine
   ansible.builtin.import_tasks: searchengine.yml
-  tags: [always, search_engine]
+  #tags: [always, search_engine]
 
