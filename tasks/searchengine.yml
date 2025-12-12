@@ -342,7 +342,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  when: not container_info_searchengine_f.exists
+  when: not container_info_searchengine_f.exists and support_async
 
 - name: omero searchengine | Run docker searchengine run celery beat
   become: yes
@@ -361,7 +361,8 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  when: not container_info_searchengine_f.exists
+  when: not container_info_searchengine_f.exists and support_async
+
 
 
 #ansible-playbook install_searchengine.yml  --tags "indexer"
@@ -421,7 +422,6 @@
   tags: [never, restore]
 
 
-#ansible-playbook install_searchengine.yml  --tags "dump_projects"
 - name: omero searchengine | dump project
   become: yes
   community.docker.docker_container:
@@ -440,14 +440,13 @@
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   tags: [never, dump_projects]
 
-#ansible-playbook install_searchengine.yml  --tags "bff_screens"
 - name: omero searchengine | dump screens
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
     name: dump_screens
     cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
+    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/ {{ dump_output_format }} -o True"
     networks:
       - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"

@@ -104,17 +104,12 @@
     group: root
     mode: 0755
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
-  #changed_when: false
   when: not elastic_node_data_folder.stat.exists or force_update
-
-#- name: deploy optm.yml
-#  ansible.builtin.include_tasks: optm.yml
-#  when: not elastic_node_data_folder.stat.exists
 
 - name: omero searchengine | deploy elasticsearch cluster
   ansible.builtin.include_tasks: elasticsearch.yml
   when: not elastic_node_data_folder.stat.exists or force_update
-  #elasticsearch.yml
+  tags: [always, elasticsearch]
 
 - name: omero searchengine | deploy nginx for the search engine
   ansible.builtin.import_tasks: nginx.yml
@@ -122,8 +117,9 @@
 
 - name: omero searchengine | deploy redis
   ansible.builtin.import_tasks: redis.yml
-  when: not test_mode
+  when: not test_mode and support_async
 
 - name: omero searchengine | deploy searchengine
   ansible.builtin.import_tasks: searchengine.yml
+  tags: [always, search_engine]
 

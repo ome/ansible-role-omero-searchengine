@@ -38,3 +38,4 @@ quires_folder: quires/
 force_update: false
 dump_output_format: "json"
 max_page_size: 10000
+support_async: true
