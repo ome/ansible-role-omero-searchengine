@@ -1,7 +1,7 @@
-OMERO search engine
-===================
+IDR searcher
+============
 
-Installs and configures the OMERO search engine.
+Installs and configures the IDR search engine.
 
 Dependencies
 ------------
