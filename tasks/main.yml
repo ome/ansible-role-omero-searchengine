@@ -109,7 +109,7 @@
 - name: omero searchengine | deploy elasticsearch cluster
   ansible.builtin.include_tasks: elasticsearch.yml
   when: not elastic_node_data_folder.stat.exists or force_update
-  tags: [always, elasticsearch]
+  #tags: [always, elasticsearch]
 
 - name: omero searchengine | deploy nginx for the search engine
   ansible.builtin.import_tasks: nginx.yml
