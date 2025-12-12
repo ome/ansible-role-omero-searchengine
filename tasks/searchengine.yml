@@ -426,7 +426,7 @@
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
-    name: dump_projects
+    name: dump_projects_{{ dump_output_format }}
     cleanup: True
     command: "dump_searchengine_data -d {{ default_datasource }} -r project  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/{{ dump_output_format }} -o True"
     networks:
@@ -444,7 +444,7 @@
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
-    name: dump_screens
+    name: dump_screens_{{ dump_output_format }}
     cleanup: True
     command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/{{ dump_output_format }} -o True"
     networks:
