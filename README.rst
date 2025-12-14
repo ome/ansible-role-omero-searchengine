@@ -68,7 +68,7 @@ Example Playbook
          - no_index_processes: 6
          - elasticsearch_no_nodes: 3
          - nginx_port: 8080
-         - dump_output_format: "bff"
+         - dump_output_format: "csv_bff"
 
 The role can also be used for:
 
