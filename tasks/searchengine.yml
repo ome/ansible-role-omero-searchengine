@@ -45,6 +45,15 @@
     group: root
     mode: 0755
 
+- name: omero searchengine | Create searchengine async quires directory
+  become: yes
+  ansible.builtin.file:
+    path: "{{ apps_folder }}/data_dump/{{ quires_folder }}"
+    state: directory
+    owner: 1000
+    group: root
+    mode: 0755
+
 - name: omero searchengine | Create searchengine cached directory
   become: yes
   ansible.builtin.file:
@@ -264,7 +273,18 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-#set_no_processes
+- name: omero searchengine | Set max page size
+  become: yes
+  community.docker.docker_container:
+    image: "{{ searchengine_docker_image }}"
+    name: set_max_page_size
+    cleanup: True
+    auto_remove: yes
+    command: "set_MAX_PAGE_SIZE -n {{ max_page_size }}"
+    state: started
+    volumes:
+      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+  changed_when: false
 
 - name: omero searchengine | Run docker searchengine  test create index -r image1
   become: yes
@@ -322,7 +342,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  when: not container_info_searchengine_f.exists
+  when: not container_info_searchengine_f.exists and support_async
 
 - name: omero searchengine | Run docker searchengine run celery beat
   become: yes
@@ -341,7 +361,8 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  when: not container_info_searchengine_f.exists
+  when: not container_info_searchengine_f.exists and support_async
+
 
 
 #ansible-playbook install_searchengine.yml  --tags "indexer"
@@ -401,15 +422,13 @@
   tags: [never, restore]
 
 
-#ansible-playbook install_searchengine.yml  --tags "bff_projects"
-- name: omero searchengine | dump project to BFF format
+- name: omero searchengine | dump project
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
-    name: dump_projects_BFF
+    name: dump_projects_{{ dump_output_format }}
     cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r project  -b True -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
-             #dump_searchengine_data -d idr -r project                          -b True -t /data/data_dump/idr/csv_bff -o True
+    command: "dump_searchengine_data -d {{ default_datasource }} -r project  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/{{ dump_output_format }} -o True"
     networks:
       - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
@@ -419,16 +438,15 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  tags: [never, bff_projects]
+  tags: [never, dump_projects]
 
-#ansible-playbook install_searchengine.yml  --tags "bff_screens"
-- name: omero searchengine | dump screens to BFF format
+- name: omero searchengine | dump screens
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
-    name: dump_screens_BFF
+    name: dump_screens_{{ dump_output_format }}
     cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -b True -t {{ data_dump_folder }}/{{ default_datasource }}/csv_bff -o True"
+    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/{{ dump_output_format }} -o True"
     networks:
       - name: searchengine-net
     #restart: "{{ searchengine_conf_status | changed }}"
@@ -438,4 +456,4 @@
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
-  tags: [never, bff_screens]
+  tags: [never, dump_screens]
