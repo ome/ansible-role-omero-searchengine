@@ -46,29 +46,29 @@ Example Playbook
       roles:
       - role:  omero_searchengine
         vars:
-         - elastic_password: Jlsp2cZirz6G56&^hdlhkf7
-         - apps_folder: /data
-         - asynchronous_search: true
-         - automatic_refresh: true
-         - cache_rows: 50000
-         - database_name: idr
-         - database_user_password: mypassword
-         - database_port: '5432'
-         - database_server_url: 192.168.10.38
-         - database_username: omeroreadonly
-         - elasticsearch_backup_folder: /searchengine_backup
-         - searchengine_secret_key  : searchengine_secret_key
-         - verify_certs: false
-         - quires_folder: quires/
-         - data_dump_folder: /data/data_dump/
-         - default_datasource: omero
-         - searchengineurlprefix: "searchengine"
-         - ca_password: "ca_password_1234"
-         - keystore_password: "keystore_password_1234"
-         - no_index_processes: 6
-         - elasticsearch_no_nodes: 3
-         - nginx_port: 8080
-         - dump_output_format: "csv_bff"
+         elastic_password: Jlsp2cZirz6G56&^hdlhkf7
+         apps_folder: /data
+         asynchronous_search: true
+         automatic_refresh: true
+         cache_rows: 50000
+         database_name: idr
+         database_user_password: mypassword
+         database_port: '5432'
+         database_server_url: 192.168.10.38
+         database_username: omeroreadonly
+         elasticsearch_backup_folder: /searchengine_backup
+         searchengine_secret_key  : searchengine_secret_key
+         verify_certs: false
+         quires_folder: quires/
+         data_dump_folder: /data/data_dump/
+         default_datasource: omero
+         searchengineurlprefix: "searchengine"
+         ca_password: "ca_password_1234"
+         keystore_password: "keystore_password_1234"
+         no_index_processes: 6
+         elasticsearch_no_nodes: 3
+         nginx_port: 8080
+         dump_output_format: "csv_bff"
 
 The role can also be used for:
 
