@@ -165,7 +165,7 @@
   when: not container_info_elasticsearch_node1.exists and  elasticsearch_no_nodes >1
 
 
-- name: omero searchengine | Run first docker elasticsearch main node
+- name: omero searchengine | Run first docker elasticsearch main node (One node Elastic search cluster)
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
