@@ -99,6 +99,38 @@ The role can also be used for:
 
 Assuming the installation playbook name is `install_searchengine.yml`
 
+
+The user can perform the following checks to ensure that the application is installed correctly and functioning as expected.
+
+The following command verifies that the search engine is running and listening for incoming requests:
+
+::
+
+    curl -XGET http://127.0.0.1:5577/searchengine/api/v1/resources/
+
+This command verifies that Nginx is running and able to connect to the search engine.
+::
+
+    curl -XGET http://127.0.0.1:8080/searchengine/api/v1/resources/
+
+Both of them should have the same output message, i.e.
+::
+
+    OMERO search engine (API V1)
+
+The following command verifies that the Elasticsearch cluster is running and that the search engine can connect to it.
+::
+
+    curl -I  -k -u "elastic:mypassword" https://127.0.0.1:9201/image_keyvalue_pair_metadata_1
+
+The output of the command should be something lika that;
+::
+
+    HTTP/1.1 200 OK
+    X-elastic-product: Elasticsearch
+    content-type: application/json
+    Transfer-Encoding: chunked
+
 Author Information
 ------------------
 
