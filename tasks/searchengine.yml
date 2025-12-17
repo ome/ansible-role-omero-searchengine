@@ -247,7 +247,7 @@
 
 # automatic refreshing  when configuration change is detected
 
-- name: omero searchengine | Set automatic automatic configuration refresh
+- name: omero searchengine | Set automatic configuration refresh
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
