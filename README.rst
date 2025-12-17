@@ -123,7 +123,7 @@ The following command verifies that the Elasticsearch cluster is running and tha
 
     curl -I  -k -u "elastic:mypassword" https://127.0.0.1:9201/image_keyvalue_pair_metadata_1
 
-The output of the command should be something lika that;
+The output of the command should be something like that;
 ::
 
     HTTP/1.1 200 OK
