@@ -33,7 +33,7 @@ Role Variables
 - `nginx_port`: The port Nginx should use
 - `cache_rows`: The number of rows the indexing process can handle at one time
 - `no_index_processes`: The number of parallel processes available for the indexing process
-- 'dump_output_format': The data can be dumped in either CSV_BFF or JSON format. default is JSON
+- `dump_output_format`: The data can be dumped in either CSV_BFF or JSON format. default is JSON
 
 Example Playbook
 ----------------
@@ -46,29 +46,29 @@ Example Playbook
       roles:
       - role:  omero_searchengine
         vars:
-         - elastic_password: Jlsp2cZirz6G56&^hdlhkf7
-         - apps_folder: /data
-         - asynchronous_search: true
-         - automatic_refresh: true
-         - cache_rows: 50000
-         - database_name: idr
-         - database_user_password: mypassword
-         - database_port: '5432'
-         - database_server_url: 192.168.10.38
-         - database_username: omeroreadonly
-         - elasticsearch_backup_folder: /searchengine_backup
-         - searchengine_secret_key  : searchengine_secret_key
-         - verify_certs: false
-         - quires_folder: quires/
-         - data_dump_folder: /data/data_dump/
-         - default_datasource: omero
-         - searchengineurlprefix: "searchengine"
-         - ca_password: "ca_password_1234"
-         - keystore_password: "keystore_password_1234"
-         - no_index_processes: 6
-         - elasticsearch_no_nodes: 3
-         - nginx_port: 8080
-         - dump_output_format: "csv_bff"
+         elastic_password: Jlsp2cZirz6G56&^hdlhkf7
+         apps_folder: /data
+         asynchronous_search: true
+         automatic_refresh: true
+         cache_rows: 50000
+         database_name: idr
+         database_user_password: mypassword
+         database_port: '5432'
+         database_server_url: 192.168.10.38
+         database_username: omeroreadonly
+         elasticsearch_backup_folder: /searchengine_backup
+         searchengine_secret_key  : searchengine_secret_key
+         verify_certs: false
+         quires_folder: quires/
+         data_dump_folder: /data/data_dump/
+         default_datasource: omero
+         searchengineurlprefix: "searchengine"
+         ca_password: "ca_password_1234"
+         keystore_password: "keystore_password_1234"
+         no_index_processes: 6
+         elasticsearch_no_nodes: 3
+         nginx_port: 8080
+         dump_output_format: "csv_bff"
 
 The role can also be used for:
 
@@ -98,6 +98,38 @@ The role can also be used for:
     ansible-playbook install_searchengine.yml  --tags "dump_projects"
 
 Assuming the installation playbook name is `install_searchengine.yml`
+
+
+The user can perform the following checks to ensure that the application is installed correctly and functioning as expected.
+
+The following command verifies that the search engine is running and listening for incoming requests:
+
+::
+
+    curl -XGET http://127.0.0.1:5577/searchengine/api/v1/resources/
+
+This command verifies that Nginx is running and able to connect to the search engine.
+::
+
+    curl -XGET http://127.0.0.1:8080/searchengine/api/v1/resources/
+
+Both of them should have the same output message, i.e.
+::
+
+    OMERO search engine (API V1)
+
+The following command verifies that the Elasticsearch cluster is running and that the search engine can connect to it.
+::
+
+    curl -I  -k -u "elastic:mypassword" https://127.0.0.1:9201/image_keyvalue_pair_metadata_1
+
+The output of the command should be;
+::
+
+    HTTP/1.1 200 OK
+    X-elastic-product: Elasticsearch
+    content-type: application/json
+    Transfer-Encoding: chunked
 
 Author Information
 ------------------

@@ -45,7 +45,7 @@
     group: root
     mode: 0755
 
-- name: omero searchengine | Create searchengine async quires directory
+- name: omero searchengine | Create searchengine async queries directory
   become: yes
   ansible.builtin.file:
     path: "{{ apps_folder }}/data_dump/{{ quires_folder }}"
@@ -141,7 +141,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: omero searchengine | configure cache folder  for docker searchengine
+- name: omero searchengine | configure cache folder for docker searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -158,7 +158,7 @@
     - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
   changed_when: false
 
-- name: omero searchengine | configure quries folder for  searchengine
+- name: omero searchengine | configure queries folder for  searchengine
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -247,7 +247,7 @@
 
 # automatic refreshing  when configuration change is detected
 
-- name: omero searchengine | Set automatic refreshing the configuration
+- name: omero searchengine | Set automatic configuration refresh
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
@@ -422,7 +422,7 @@
   tags: [never, restore]
 
 
-- name: omero searchengine | dump project
+- name: omero searchengine | dump projects
   become: yes
   community.docker.docker_container:
     image: "{{ searchengine_docker_image }}"
