@@ -165,7 +165,7 @@
     name: searchengine_quries_folder
     cleanup: True
     auto_remove: yes
-    command: "set_queries_folder -q {{ quires_folder }}"
+    command: "set_queries_folder -q {{ queries_folder }}"
     #networks:
     #- name: searchengine-net
     #published_ports:

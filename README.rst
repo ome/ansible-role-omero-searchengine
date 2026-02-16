@@ -59,7 +59,7 @@ Example Playbook
          elasticsearch_backup_folder: /searchengine_backup
          searchengine_secret_key  : searchengine_secret_key
          verify_certs: false
-         quires_folder: quires/
+         queries_folder: queries/
          data_dump_folder: /data/data_dump/
          default_datasource: omero
          searchengineurlprefix: "searchengine"
