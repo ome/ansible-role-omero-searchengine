@@ -8,7 +8,7 @@ database_username: database_user
 database_user_password: database_password
 searchenginecache_folder: /data/searchengine/searchengine/cacheddata/
 search_engineelasticsearch_docker_image: docker.elastic.co/elasticsearch/elasticsearch:9.2.1
-searchengine_docker_image: khaledk2/searchengine:new_packages
+searchengine_docker_image: openmicroscopy/omero-searchengine:0.8.0
 searchengine_index: searchengine_index
 automatic_refresh: true
 cache_rows: 1000
@@ -34,7 +34,7 @@ nginx_port: 8080
 es_java_options: "-Xms2g -Xmx2g"
 no_index_processes: 2
 test_mode: false
-quires_folder: quires/
+queries_folder: queries/
 force_update: false
 dump_output_format: "json"
 max_page_size: 10000

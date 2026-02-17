@@ -48,7 +48,7 @@
 - name: omero searchengine | Create searchengine async queries directory
   become: yes
   ansible.builtin.file:
-    path: "{{ apps_folder }}/data_dump/{{ quires_folder }}"
+    path: "{{ apps_folder }}/data_dump/{{ queries_folder }}"
     state: directory
     owner: 1000
     group: root
@@ -165,7 +165,7 @@
     name: searchengine_quries_folder
     cleanup: True
     auto_remove: yes
-    command: "set_queries_folder -q {{ quires_folder }}"
+    command: "set_queries_folder -q {{ queries_folder }}"
     #networks:
     #- name: searchengine-net
     #published_ports:
