@@ -39,3 +39,9 @@ force_update: false
 dump_output_format: "json"
 max_page_size: 10000
 support_async: true
+search_container_names:
+  - searchengine
+  - searchengine-nginx-container
+  - searchengine-redis-container
+  - searchengine_celery
+  - searchengine_celery_beat

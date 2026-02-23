@@ -17,10 +17,10 @@
     instances: "{{instances | combine ( {'instances' : instances_nodes}) }}"
 
 #Add all elasticsearch nodes
-- name: omero searchengine | Add elastic nodes to elasticsearch_nodes
-  ansible.builtin.set_fact:
-    elasticsearch_nodes: '{{ elasticsearch_nodes + ["searchengine_elasticsearch_node"+item] }}'
-  with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+#- name: omero searchengine | Add elastic nodes to elasticsearch_nodes
+#  ansible.builtin.set_fact:
+#    elasticsearch_nodes: '{{ elasticsearch_nodes + ["searchengine_elasticsearch_node"+item] }}'
+#  with_sequence: start=1 count={{ elasticsearch_no_nodes }}
 
 - name: omero searchengine | Create docker network
   become: yes
