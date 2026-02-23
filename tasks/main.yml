@@ -11,6 +11,7 @@
 - name: omero searchengine | Add elastic nodes to elasticsearch_nodes_urls
   ansible.builtin.set_fact:
     elasticsearch_nodes_urls: '{{ elasticsearch_nodes_urls + ["https://10.11.0."+item+":9200"] }}'
+    cacheable: yes
   with_sequence: start=2 count={{ elasticsearch_no_nodes }}
 
 - name:  omero searchengine | Ensure sysctl is present
@@ -39,18 +40,36 @@
   ansible.builtin.import_role:
     name: ome.docker
 
-- name: omero searchengine | Get running containers
+
+- name: mero searchengine | Get Docker information
   community.docker.docker_host_info:
-    containers: yes
-  register: docker_info
+    containers: true
+  register: searchengine_docker_info
+
+- name: mero searchengine | Get list of container names
+  set_fact:
+    searchengine_container_names: >-
+      {{
+        searchengine_docker_info.containers
+        | map(attribute='Names')
+        | flatten
+        | map('regex_replace', '^/', '')
+        | list
+      }}
+    cacheable: yes
+
+- debug:
+    var: container_names
 
 - name: omero searchengine | Stop and delete running containers
   community.docker.docker_container:
     name: "{{ item }}"
     state: absent  #stopped
-  loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+  loop: "{{ searchengine_container_names }}"
   when:
     - item in elasticsearch_nodes or item in search_container_names
+    - not molecule_yml is defined
+
 
 - name: omero searchengine | Check if a elastic node data folder exists
   ansible.builtin.stat:
@@ -131,7 +150,7 @@
 
 - name: omero searchengine | deploy elasticsearch cluster
   ansible.builtin.include_tasks: elasticsearch.yml
-  when: not elastic_node_data_folder.stat.exists or force_update
+  #when: not elastic_node_data_folder.stat.exists or force_update
 
 - name: omero searchengine | deploy nginx for the search engine
   ansible.builtin.import_tasks: nginx.yml
