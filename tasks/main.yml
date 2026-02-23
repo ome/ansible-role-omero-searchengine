@@ -1,12 +1,11 @@
 ---
-## create the searchengine and elasticsearch folders
 
 #Add all elasticsearch nodes
 - name: omero searchengine | Add elastic nodes to elasticsearch_nodes
   ansible.builtin.set_fact:
     elasticsearch_nodes: '{{ elasticsearch_nodes + ["searchengine_elasticsearch_node"+item] }}'
+    cacheable: yes
   with_sequence: start=1 count={{ elasticsearch_no_nodes }}
-  cacheable: yes
 
 #Add all elasticsearch nodes
 - name: omero searchengine | Add elastic nodes to elasticsearch_nodes_urls
