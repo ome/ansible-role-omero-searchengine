@@ -44,6 +44,7 @@
 - name: mero searchengine | Get Docker information
   community.docker.docker_host_info:
     containers: true
+    containers_all: true
   register: searchengine_docker_info
 
 - name: mero searchengine | Get list of container names
