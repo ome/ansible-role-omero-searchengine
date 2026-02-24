@@ -59,7 +59,7 @@
     cacheable: yes
 
 - debug:
-    var: container_names
+    var: searchengine_container_names
 
 - name: omero searchengine | Stop and delete running containers
   community.docker.docker_container:
