@@ -40,7 +40,6 @@
   ansible.builtin.import_role:
     name: ome.docker
 
-
 - name: mero searchengine | Get Docker information
   community.docker.docker_host_info:
     containers: true
@@ -59,9 +58,6 @@
       }}
     cacheable: yes
 
-- debug:
-    var: searchengine_container_names
-
 - name: omero searchengine | Stop and delete running containers
   community.docker.docker_container:
     name: "{{ item }}"
@@ -70,7 +66,6 @@
   when:
     - item in elasticsearch_nodes or item in search_container_names
     - not molecule_yml is defined
-
 
 - name: omero searchengine | Check if a elastic node data folder exists
   ansible.builtin.stat:
@@ -151,15 +146,14 @@
 
 - name: omero searchengine | deploy elasticsearch cluster
   ansible.builtin.include_tasks: elasticsearch.yml
-  #when: not elastic_node_data_folder.stat.exists or force_update
 
 - name: omero searchengine | deploy nginx for the search engine
   ansible.builtin.import_tasks: nginx.yml
-  when: not test_mode
+  when: not molecule_yml is defined
 
 - name: omero searchengine | deploy redis
   ansible.builtin.import_tasks: redis.yml
-  when: not test_mode and support_async
+  when: not molecule_yml is defined
 
 - name: omero searchengine | deploy searchengine
   ansible.builtin.import_tasks: searchengine.yml

@@ -7,5 +7,3 @@
     es_java_options: "-Xms512m -Xmx512m"
     elasticsearch_no_nodes: 1
     elastic_password: my_password
-    test_mode: true
-

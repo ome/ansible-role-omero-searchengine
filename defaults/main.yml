@@ -33,7 +33,6 @@ instances: {}
 nginx_port: 8080
 es_java_options: "-Xms2g -Xmx2g"
 no_index_processes: 2
-test_mode: false
 queries_folder: queries/
 force_update: false
 dump_output_format: "json"
