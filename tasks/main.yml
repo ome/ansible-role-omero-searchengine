@@ -67,7 +67,8 @@
     - item in elasticsearch_nodes or item in search_container_names
     - not molecule_yml is defined
 
-- name: Recursively remove directory
+- name: omero searchengine |  remove app directory
+  become: yes
   ansible.builtin.file:
    path: "{{ apps_folder }}/searchengine"
    state: absent
