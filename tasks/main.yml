@@ -46,7 +46,7 @@
     containers_all: true
   register: searchengine_docker_info
 
-- name: mero searchengine | Get list of container names
+- name: omero searchengine | Get list of container names
   set_fact:
     searchengine_container_names: >-
       {{
