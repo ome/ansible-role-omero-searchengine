@@ -40,7 +40,7 @@
   ansible.builtin.import_role:
     name: ome.docker
 
-- name: mero searchengine | Get Docker information
+- name: omero searchengine | Get Docker information
   community.docker.docker_host_info:
     containers: true
     containers_all: true
