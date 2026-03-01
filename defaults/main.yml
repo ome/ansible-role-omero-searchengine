@@ -33,9 +33,15 @@ instances: {}
 nginx_port: 8080
 es_java_options: "-Xms2g -Xmx2g"
 no_index_processes: 2
-test_mode: false
+prune_app_folder: false
 queries_folder: queries/
 force_update: false
 dump_output_format: "json"
 max_page_size: 10000
 support_async: true
+search_container_names:
+  - searchengine
+  - searchengine-nginx-container
+  - searchengine-redis-container
+  - searchengine_celery
+  - searchengine_celery_beat

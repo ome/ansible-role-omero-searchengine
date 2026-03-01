@@ -11,11 +11,6 @@
   ansible.builtin.debug:
     msg: "Container '{{ container_info_searchengine_f }}' is in state: {{ container_info_searchengine_f.exists}}"
 
-- name: omero searchengine | set elasticsearch_nodes_urls
-  ansible.builtin.set_fact:
-    elasticsearch_nodes_urls: []
-
-
 - name: omero searchengine | Create searchengine folder directory
   become: yes
   ansible.builtin.file:
@@ -62,12 +57,6 @@
     owner: 1000
     group: root
     mode: 0755
-
-#Add all elasticsearch nodes
-- name: omero searchengine | Add elastic nodes to elasticsearch_nodes_urls
-  ansible.builtin.set_fact:
-    elasticsearch_nodes_urls: '{{ elasticsearch_nodes_urls + ["https://10.11.0."+item+":9200"] }}'
-  with_sequence: start=2 count={{ elasticsearch_no_nodes }}
 
 - name: omero searchengine | configure elasticsearch backup folder for docker searchengine
   become: yes
@@ -362,8 +351,6 @@
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
       - "{{ apps_folder }}/data_dump:/data/data_dump"
   when: not container_info_searchengine_f.exists and support_async
-
-
 
 #ansible-playbook install_searchengine.yml  --tags "indexer"
 - name: omero searchengine | Index the default data source

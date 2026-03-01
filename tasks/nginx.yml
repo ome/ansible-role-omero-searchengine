@@ -47,7 +47,6 @@
     restart_policy: always
   tags: [always, nginx]
 
-
 - name: copy adjust containers files script to the host machine
   ansible.builtin.template:
     src: adjust_containers_files.sh.j2

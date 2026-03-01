@@ -1,11 +1,12 @@
 ---
-- name: omero searchengine | Check if IP is in use
-  ansible.builtin.set_fact:
-    ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
 - name: Get info about the searchengine container
   community.docker.docker_container_info:
     name: searchengine_elasticsearch_node1
   register: container_info_elasticsearch_node1
+
+- name: omero searchengine | Check if IP is in use
+  ansible.builtin.set_fact:
+    ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
 
 - name: omero searchengine | Add elastic nodes to instances_nodes
   ansible.builtin.set_fact:
@@ -16,16 +17,8 @@
   ansible.builtin.set_fact:
     instances: "{{instances | combine ( {'instances' : instances_nodes}) }}"
 
-#Add all elasticsearch nodes
-- name: omero searchengine | Add elastic nodes to elasticsearch_nodes
-  ansible.builtin.set_fact:
-    elasticsearch_nodes: '{{ elasticsearch_nodes + ["searchengine_elasticsearch_node"+item] }}'
-  with_sequence: start=1 count={{ elasticsearch_no_nodes }}
-
 - name: omero searchengine | Create docker network
   become: yes
- #vars:
- #  ansible_python_interpreter: /usr/bin/python
   community.docker.docker_network:
     name: searchengine-net
     driver: bridge
