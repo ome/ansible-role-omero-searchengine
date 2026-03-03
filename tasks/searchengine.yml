@@ -93,7 +93,7 @@
     auto_remove: yes
     #auto_remove: yes
     command: >
-      set_database_configuration -d {{ database_name }} -s {{ database_port }} -n {{ database_username }} -p {{ database_user_password }} -b {{ apps_folder }} -w {{ default_datasource }} -u {{ database_server_url }}
+      set_database_configuration -d {{ database_name }} -s {{ database_port }} -n {{ database_username }} -p {{ database_user_password }} -b {{ apps_folder }} -w {{ default_datasource }} -u {{ database_server_url }} -t {{ thumb_url }} -c {{ image_webclient_url }} -i {{ image_url }}
     #networks::
     #- name: searchengine-net
     #published_ports:
