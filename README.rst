@@ -10,28 +10,28 @@ ome.docker is required.
 Role Variables
 --------------
 
-- `apps_folder'`: The application data folder
-- `database_server_url`: The database URL
-- `database_port`: The database port
-- `database_name`: The database name (e.g. omero)
-- `database_username`: The database username
-- `database_user_password`: The database user password
-- `default_datasource`: The default datasource
-- `search_engineelasticsearch_docker_image`: The Elasticsearch image (default: `docker.elastic.co/elasticsearch/elasticsearch:9.2.1`)
-- `searchengine_docker_image`: The search engine Docker image
-- `automatic_refresh`: Whether the search engine should reload the configuration when modified (true/false)
-- `searchengine_secret_key`: The search engine secret key
-- `searchengineurlprefix`: The URL prefix for the search engine (default: searchengine)
-- `elasticsearch_no_nodes`: The number of nodes in the Elasticsearch cluster
-- `elasticsearch_backup_folder`: The Elasticsearch data backup folder
-- `ca_password`:  The CA password for the Elasticsearch certificate
-- `keystore_password`: The keystore password for the Elasticsearch cluster
-- `elastic_password`: The password for the Elasticsearch user
-- `data_dump_folder`: The data dump folder (used for asynchronous search and container BFFs)
-- `nginx_port`: The port Nginx should use
-- `cache_rows`: The number of rows the indexing process can handle at one time
-- `no_index_processes`: The number of parallel processes available for the indexing process
-- `dump_output_format`: The data can be dumped in either CSV_BFF or JSON format. The default is JSON
+- ``apps_folder``: The application data folder
+- ``database_server_url``: The database URL
+- ``database_port``: The database port
+- ``database_name``: The database name (e.g. omero)
+- ``database_username``: The database username
+- ``database_user_password``: The database user password
+- ``default_datasource``: The default datasource
+- ``search_engineelasticsearch_docker_image``: The Elasticsearch image (default: `docker.elastic.co/elasticsearch/elasticsearch:9.2.1`)
+- ``searchengine_docker_image``: The search engine Docker image
+- ``automatic_refresh``: Whether the search engine should reload the configuration when modified (true/false)
+- ``searchengine_secret_key``: The search engine secret key
+- ``searchengineurlprefix``: The URL prefix for the search engine (default: searchengine)
+- ``elasticsearch_no_nodes``: The number of nodes in the Elasticsearch cluster
+- ``elasticsearch_backup_folder``: The Elasticsearch data backup folder
+- ``ca_password``:  The CA password for the Elasticsearch certificate
+- ``keystore_password``: The keystore password for the Elasticsearch cluster
+- ``elastic_password``: The password for the Elasticsearch user
+- ``data_dump_folder``: The data dump folder (used for asynchronous search and container BFFs)
+- ``nginx_port``: The port Nginx should use
+- ``cache_rows``: The number of rows the indexing process can handle at one time
+- ``no_index_processes``: The number of parallel processes available for the indexing process
+- ``dump_output_format``: The data can be dumped in either CSV_BFF or JSON format. The default is JSON
 
 Example Playbook
 ----------------
