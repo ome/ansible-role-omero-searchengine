@@ -39,6 +39,9 @@ force_update: false
 dump_output_format: "json"
 max_page_size: 10000
 support_async: true
+image_url: ""
+image_webclient_url: ""
+thumb_url: ""
 search_container_names:
   - searchengine
   - searchengine-nginx-container
