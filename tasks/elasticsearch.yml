@@ -100,7 +100,7 @@
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
-    name: "searchengine_elasticsearch_node1"
+    name:  "searchengine_elasticsearch_node1{{ cluster_id | default(omit) }}"
     cleanup: True
     ulimits:
       - 'memlock:-1:-1'
@@ -144,7 +144,7 @@
     #########################################################################
     networks:
     - name: "{{ searchengine_network }}"
-      ipv4_address: 10.11.0.2
+      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + 1 }}
     published_ports:
       - "920{{ elasticsearch_published_port_dig | int + 1 }}:9200"
       - "930{{ elasticsearch_published_port_dig | int + 1 }}:9300"
@@ -162,7 +162,7 @@
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
-    name: "searchengine_elasticsearch_node1"
+    name:  "searchengine_elasticsearch_node1{{ cluster_id | default(omit) }}"
     cleanup: True
     ulimits:
       'memlock:-1:-1'
@@ -244,7 +244,7 @@
       path.data: "/var/lib/elasticsearch"
       path.logs: "/var/log/elasticsearch"
       path.repo: "{{ elasticsearch_backup_folder }}"
-      node.name: "searchengine_elasticsearch_node{{ item }}"
+      node.name: "searchengine_elasticsearch_node{{ item }}{{ cluster_id | default(omit) }}"
       bootstrap.memory_lock: "true"
       network.host: 0.0.0.0
       cluster.name: "searchengine-cluster"
@@ -291,5 +291,5 @@
     - "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}/logs:/var/log/elasticsearch"
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
     - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
-  with_sequence: start=2 count={{ (elasticsearch_no_nodes | int -1)  + (elasticsearch_published_port_dig) }}
+  with_sequence: start={{ elasticsearch_published_port_dig | int +2 }} count={{ (elasticsearch_no_nodes | int -1) }}
   when: not container_info_elasticsearch_node1.exists
