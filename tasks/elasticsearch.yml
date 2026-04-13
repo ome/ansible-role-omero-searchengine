@@ -8,6 +8,7 @@
   ansible.builtin.set_fact:
     ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
 
+
 - name: omero searchengine | Add elastic nodes to instances_nodes
   ansible.builtin.set_fact:
     instances_nodes: "{{instances_nodes + [( {'name' : 'searchengine_elasticsearch_node'+item, 'dns': ['searchengine_elasticsearch_node'+item,'localhost'],'ip': '127.0.0.1'})] }}"
@@ -16,6 +17,13 @@
 - name: omero searchengine | Add elastic nodes to instances
   ansible.builtin.set_fact:
     instances: "{{instances | combine ( {'instances' : instances_nodes}) }}"
+
+- name: omero searchengine | display instances
+  debug:
+    msg:
+    - "The intsances is {{ instances }} ===>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    - "The instances_nodes is {{ instances_nodes }} ===>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+
 
 - name: omero searchengine | Create docker network
   become: yes
@@ -96,6 +104,21 @@
 - debug:
     msg: "this the value: {{ ip_taken }} "
 
+
+- debug:
+    msg: "10.11.0.{{ elasticsearch_published_port_dig | int + 1 }}"
+
+
+- name: omero searchengine | display initial_master_nodes
+  debug:
+    msg:
+      - "initial_master_nodes: {{ elasticsearch_nodes }}"
+      - "920{{ elasticsearch_published_port_dig | int + 1 }}:9200"
+      - "930{{ elasticsearch_published_port_dig | int + 1 }}:9300"
+      - "10.11.0.{{ elasticsearch_published_port_dig | int + 1 }}"
+
+
+
 - name: omero searchengine | Run first docker elasticsearch main node
   become: yes
   community.docker.docker_container:
@@ -144,7 +167,7 @@
     #########################################################################
     networks:
     - name: "{{ searchengine_network }}"
-      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + 1 }}
+      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + 2 }}
     published_ports:
       - "920{{ elasticsearch_published_port_dig | int + 1 }}:9200"
       - "930{{ elasticsearch_published_port_dig | int + 1 }}:9300"
@@ -280,7 +303,7 @@
 
     networks:
     - name: "{{ searchengine_network }}"
-      ipv4_address: 10.11.0.{{ item | int + 1 }}
+      ipv4_address: 10.11.0.{{ item | int + 2 }}
     published_ports:
       - "920{{ item }}:9200"
       - "930{{ item }}:9300"
@@ -291,5 +314,5 @@
     - "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}/logs:/var/log/elasticsearch"
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
     - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
-  with_sequence: start={{ elasticsearch_published_port_dig | int +2 }} count={{ (elasticsearch_no_nodes | int -1) }}
+  with_sequence: start={{ elasticsearch_published_port_dig | int +1 }} count={{ (elasticsearch_no_nodes)  }}
   when: not container_info_elasticsearch_node1.exists

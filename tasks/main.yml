@@ -15,7 +15,7 @@
   ansible.builtin.set_fact:
     elasticsearch_nodes_urls: '{{ elasticsearch_nodes_urls + ["https://10.11.0."+item+":9200"] }}'
     cacheable: yes
-  with_sequence: start={{ elasticsearch_published_port_dig | int +1 }} count={{ (elasticsearch_no_nodes) }}
+  with_sequence: start={{ elasticsearch_published_port_dig | int +2 }} count={{ (elasticsearch_no_nodes) }}
 
 - name:  omero searchengine | Ensure sysctl is present
   ansible.builtin.package:
@@ -67,7 +67,7 @@
     state: absent  #stopped
   loop: "{{ searchengine_container_names }}"
   when:
-    - item in elasticsearch_nodes or item in search_container_names
+    - item in elasticsearch_nodes or item in search_container_names or item in elasticsearch_nodes_urls
     - not molecule_yml is defined
 
 - name: omero searchengine |  remove app directory
@@ -125,7 +125,8 @@
     owner: 1000
     group: root
     mode: 0755
-  with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+  #with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+  with_sequence: start={{ elasticsearch_published_port_dig | int +1 }} count={{ (elasticsearch_no_nodes) }}
   changed_when: false
 
 
