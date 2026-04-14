@@ -43,7 +43,7 @@ image_url: ""
 image_webclient_url: ""
 thumb_url: ""
 searchengine_published_port: 5577
-elasticsearch_published_port_dig: 1
+elasticsearch_published_port_dig: 0
 searchengine_network: searchengine-net
 search_container_names:
   - "searchengine{{ cluster_id | default(omit) }}"
