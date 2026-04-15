@@ -285,6 +285,7 @@
     command: "create_index -r image1"
     networks:
     - name: "{{ searchengine_network }}"
+      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +3 }}
     #restart: "{{ searchengine_conf_status | changed }}"
     state: started
     volumes:
@@ -324,7 +325,7 @@
     command: "celery"
     networks:
     - name: "{{ searchengine_network }}"
-      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +3 }}
+      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +4 }}
     state: started
     restart_policy: always
     volumes:
@@ -343,6 +344,7 @@
     command: "beat"
     networks:
     - name: "{{ searchengine_network }}"
+      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +5 }}
     #restart: "{{ searchengine_conf_status | changed }}"
     state: started
     restart_policy: always
