@@ -39,9 +39,9 @@ force_update: false
 dump_output_format: "json"
 max_page_size: 10000
 support_async: true
-image_url: ""
-image_webclient_url: ""
-thumb_url: ""
+image_url: "url/to/image"
+image_webclient_url: "url/to/image/in//webclient"
+thumb_url: "utl/to/thumb"
 searchengine_published_port: 5577
 elasticsearch_published_port_dig: 0
 searchengine_network: searchengine-net
