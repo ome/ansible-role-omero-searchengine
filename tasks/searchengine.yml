@@ -357,23 +357,23 @@
 
 #ansible-playbook install_searchengine.yml  --tags "indexer"
 - name: omero searchengine | Index the default data source
-  ansible.builtin.import_tasks: indexer.yml
+  ansible.builtin.import_tasks: tags/indexer.yml
   tags: [never, indexer]
 
 #ansible-playbook install_searchengine.yml  --tags "backup"
 - name: omero searchengine | backup the searchengine data
-  ansible.builtin.import_tasks: backup.yml
+  ansible.builtin.import_tasks: tags/backup.yml
   tags: [never, backup]
 
 #ansible-playbook install_searchengine.yml  --tags "restore"
 - name: omero searchengine | restore the searchengine data
-  ansible.builtin.import_tasks: restore.yml
+  ansible.builtin.import_tasks: tags/restore.yml
   tags: [never, restore]
 
 - name: omero searchengine | dump projects
-  ansible.builtin.import_tasks: dump_projects.yml
+  ansible.builtin.import_tasks: tags/dump_projects.yml
   tags: [never, dump_projects]
 
 - name: omero searchengine | dump screens
-  ansible.builtin.import_tasks: dump_screens.yml
+  ansible.builtin.import_tasks: tags/dump_screens.yml
   tags: [never, dump_screens]
