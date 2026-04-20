@@ -357,93 +357,23 @@
 
 #ansible-playbook install_searchengine.yml  --tags "indexer"
 - name: omero searchengine | Index the default data source
-  become: yes
-  community.docker.docker_container:
-    image: "{{ searchengine_docker_image }}"
-    name: "searchengine_indexer{{ cluster_id | default(omit) }}"
-    cleanup: True
-    command: "get_index_data_from_database"
-    networks:
-      - name: "{{ searchengine_network }}"
-    #restart: "{{ searchengine_conf_status | changed }}"
-    state: started
-    volumes:
-      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
-      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
-      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
-      - "{{ apps_folder }}/data_dump:/data/data_dump"
+  ansible.builtin.import_tasks: indexer.yml
   tags: [never, indexer]
 
 #ansible-playbook install_searchengine.yml  --tags "backup"
 - name: omero searchengine | backup the searchengine data
-  become: yes
-  community.docker.docker_container:
-    image: "{{ searchengine_docker_image }}"
-    name: "searchengine_backup_data{{ cluster_id | default(omit) }}"
-    cleanup: True
-    command: "backup_elasticsearch_data"
-    networks:
-      - name: "{{ searchengine_network }}"
-    #restart: "{{ searchengine_conf_status | changed }}"
-    state: started
-    volumes:
-      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
-      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
-      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
-      - "{{ apps_folder }}/data_dump:/data/data_dump"
+  ansible.builtin.import_tasks: backup.yml
   tags: [never, backup]
+
 #ansible-playbook install_searchengine.yml  --tags "restore"
 - name: omero searchengine | restore the searchengine data
-  become: yes
-  community.docker.docker_container:
-    image: "{{ searchengine_docker_image }}"
-    name: "searchengine_restore{{ cluster_id | default(omit) }}"
-    cleanup: True
-    command: "restore_elasticsearch_data"
-    networks:
-      - name: "{{ searchengine_network }}"
-    #restart: "{{ searchengine_conf_status | changed }}"
-    state: started
-    volumes:
-      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
-      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
-      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
-      - "{{ apps_folder }}/data_dump:/data/data_dump"
+  ansible.builtin.import_tasks: restore.yml
   tags: [never, restore]
 
-
 - name: omero searchengine | dump projects
-  become: yes
-  community.docker.docker_container:
-    image: "{{ searchengine_docker_image }}"
-    name: "dump_projects_{{ dump_output_format }}{{ cluster_id | default(omit) }}"
-    cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r project  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/{{ dump_output_format }} -o True"
-    networks:
-      - name: "{{ searchengine_network }}"
-    #restart: "{{ searchengine_conf_status | changed }}"
-    state: started
-    volumes:
-      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
-      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
-      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
-      - "{{ apps_folder }}/data_dump:/data/data_dump"
+  ansible.builtin.import_tasks: dump_projects.yml
   tags: [never, dump_projects]
 
 - name: omero searchengine | dump screens
-  become: yes
-  community.docker.docker_container:
-    image: "{{ searchengine_docker_image }}"
-    name: "dump_screens_{{ dump_output_format }}{{ cluster_id | default(omit) }}"
-    cleanup: True
-    command: "dump_searchengine_data -d {{ default_datasource }} -r screen  -f {{ dump_output_format }} -t {{ data_dump_folder }}/{{ default_datasource }}/{{ dump_output_format }} -o True"
-    networks:
-      - name: "{{ searchengine_network }}"
-    #restart: "{{ searchengine_conf_status | changed }}"
-    state: started
-    volumes:
-      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
-      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
-      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
-      - "{{ apps_folder }}/data_dump:/data/data_dump"
+  ansible.builtin.import_tasks: dump_screens.yml
   tags: [never, dump_screens]

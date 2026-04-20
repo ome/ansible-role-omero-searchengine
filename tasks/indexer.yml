@@ -1,0 +1,16 @@
+- name: omero searchengine | Index the default data source
+  become: yes
+  community.docker.docker_container:
+    image: "{{ searchengine_docker_image }}"
+    name: "searchengine_indexer{{ cluster_id | default(omit) }}"
+    cleanup: True
+    command: "get_index_data_from_database"
+    networks:
+      - name: "{{ searchengine_network }}"
+    #restart: "{{ searchengine_conf_status | changed }}"
+    state: started
+    volumes:
+      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
+      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
+      - "{{ apps_folder }}/data_dump:/data/data_dump"

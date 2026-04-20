@@ -1,0 +1,18 @@
+#ansible-playbook install_searchengine.yml  --tags "backup"
+- name: omero searchengine | backup the searchengine data
+  become: yes
+  community.docker.docker_container:
+    image: "{{ searchengine_docker_image }}"
+    name: "searchengine_backup_data{{ cluster_id | default(omit) }}"
+    cleanup: True
+    command: "backup_elasticsearch_data"
+    networks:
+      - name: "{{ searchengine_network }}"
+    #restart: "{{ searchengine_conf_status | changed }}"
+    state: started
+    volumes:
+      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
+      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
+      - "{{ apps_folder }}/data_dump:/data/data_dump"
+  tags: [never, backup]
