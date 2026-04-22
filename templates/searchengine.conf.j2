@@ -5,7 +5,7 @@ server {
 
      location /searchengine {
 
-        proxy_pass "http://127.0.0.1:{{ searchengine_published_port }}/{ searchengineurlprefix }}";
+        proxy_pass http://127.0.0.1:{{ searchengine_published_port }}/{{ searchengineurlprefix }};
         proxy_redirect http://127.0.0.1:{{ searchengine_published_port }}/{{ searchengineurlprefix }} $scheme://$server_name;
         proxy_set_header Host $host/searchengine;
     }
