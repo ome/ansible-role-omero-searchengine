@@ -3,14 +3,14 @@
 server {
     listen {{ nginx_port }};
 
-     location /searchengine {
+     location /{{ searchengineurlprefix }} {
 
-        proxy_pass http://127.0.0.1:{{ searchengine_published_port }}/{{ searchengineurlprefix }};
-        proxy_redirect http://127.0.0.1:{{ searchengine_published_port }}/{{ searchengineurlprefix }} $scheme://$server_name;
+        proxy_pass http://{{ host_ip | default (127.0.0.1)}}:{{ searchengine_published_port }}/{{ searchengineurlprefix }};
+        proxy_redirect http://{{ host_ip |default (127.0.0.1)}}:{{ searchengine_published_port }}/{{ searchengineurlprefix }} $scheme://$server_name;
         proxy_set_header Host $host/searchengine;
     }
     location /send_file/ {
     internal;
-    alias /{{ apps_folder }}/data_dump/;   # real file storage
+    alias {{ apps_folder }}/data_dump/;   # real file storage
 }
 }
