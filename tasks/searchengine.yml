@@ -4,7 +4,7 @@
 - name: omero searchengine | Get info about the searchengine container
   become: true
   community.docker.docker_container_info:
-    name: searchengine
+    name: "searchengine{{ cluster_id | default(omit) }}"
   register: container_info_searchengine_f
 
 - name: omero searchengine | Debug search container state
@@ -304,6 +304,7 @@
     command: "run_app {{ searchengineurlprefix }}"
     networks:
     - name: "{{ searchengine_network }}"
+    ipv4_address: 10.11.1.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +4 }}
     published_ports:
     - "{{ searchengine_published_port }}:5577"
     #restart: "{{ searchengine_conf_status | changed }}"
@@ -325,7 +326,7 @@
     command: "celery"
     networks:
     - name: "{{ searchengine_network }}"
-      ipv4_address: 10.11.1.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +4 }}
+      ipv4_address: 10.11.1.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +5 }}
     state: started
     restart_policy: always
     volumes:
@@ -344,7 +345,7 @@
     command: "beat"
     networks:
     - name: "{{ searchengine_network }}"
-      ipv4_address: 10.11.1.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +5 }}
+      ipv4_address: 10.11.1.{{ elasticsearch_published_port_dig | int + elasticsearch_no_nodes | int +6 }}
     #restart: "{{ searchengine_conf_status | changed }}"
     state: started
     restart_policy: always
