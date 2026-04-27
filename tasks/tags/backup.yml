@@ -14,5 +14,5 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
-      - "{{ apps_folder }}/data_dump:/data/data_dump"
+      - "{{ apps_folder }}/data_dump:{{ apps_folder }}/data_dump"
   tags: [never, backup]

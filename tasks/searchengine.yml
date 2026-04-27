@@ -314,7 +314,7 @@
       - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
       - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
       - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
-      - "{{ apps_folder }}/data_dump:/data/data_dump"
+      - "{{ apps_folder }}/data_dump:{{ apps_folder }}/data_dump"
   when: not container_info_searchengine_f.exists
 
 - name: omero searchengine | Run docker celery job (Synchronize queries)
