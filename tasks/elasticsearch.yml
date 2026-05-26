@@ -1,26 +1,34 @@
 ---
 - name: Get info about the searchengine container
   community.docker.docker_container_info:
-    name: searchengine_elasticsearch_node1
+    name: "searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}"
   register: container_info_elasticsearch_node1
 
 - name: omero searchengine | Check if IP is in use
   ansible.builtin.set_fact:
-    ip_taken: "10.11.0.2 network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
+    ip_taken: "10.11.0.{{ elasticsearch_published_port_dig | int +2 }} network_info.networks[0].containers.values() | map(attribute='ipv4_address') | list }}"
+
 
 - name: omero searchengine | Add elastic nodes to instances_nodes
   ansible.builtin.set_fact:
     instances_nodes: "{{instances_nodes + [( {'name' : 'searchengine_elasticsearch_node'+item, 'dns': ['searchengine_elasticsearch_node'+item,'localhost'],'ip': '127.0.0.1'})] }}"
-  with_sequence: start=1 count={{ elasticsearch_no_nodes }}
+  with_sequence: start={{ elasticsearch_published_port_dig | int +2 }} count={{ (elasticsearch_no_nodes) }}
 
 - name: omero searchengine | Add elastic nodes to instances
   ansible.builtin.set_fact:
     instances: "{{instances | combine ( {'instances' : instances_nodes}) }}"
 
+- name: omero searchengine | display instances
+  debug:
+    msg:
+    - "The intsances is {{ instances }} ===>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    - "The instances_nodes is {{ instances_nodes }} ===>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+
+
 - name: omero searchengine | Create docker network
   become: yes
   community.docker.docker_network:
-    name: searchengine-net
+    name: "{{ searchengine_network }}"
     driver: bridge
     ipam_config:
       - subnet=10.11.0.0/16
@@ -96,11 +104,27 @@
 - debug:
     msg: "this the value: {{ ip_taken }} "
 
+
+- debug:
+    msg: "10.11.0.{{ elasticsearch_published_port_dig | int + 2 }}"
+
+
+- name: omero searchengine | display initial_master_nodes
+  debug:
+    msg:
+      - "initial_master_nodes: {{ elasticsearch_nodes }}"
+      - "920{{ elasticsearch_published_port_dig | int + 2 }}:9200"
+      - "930{{ elasticsearch_published_port_dig | int + 2 }}:9300"
+      - "10.11.0.{{ elasticsearch_published_port_dig | int + 2 }}"
+      - "The cluster id is {{ cluster_id | default(omit) }}"
+      - "cluster.name: searchengine-cluster{{ cluster_id | default(omit) }}"
+
+
 - name: omero searchengine | Run first docker elasticsearch main node
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
-    name: "searchengine_elasticsearch_node1"
+    name:  "searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}"
     cleanup: True
     ulimits:
       - 'memlock:-1:-1'
@@ -108,10 +132,10 @@
       path.data: "/var/lib/elasticsearch"
       path.logs: "/var/log/elasticsearch"
       path.repo: "{{ elasticsearch_backup_folder }}"
-      node.name: searchengine_elasticsearch_node1
+      node.name: "searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}"
       bootstrap.memory_lock: "true"
       network.host: 0.0.0.0
-      cluster.name: "searchengine-cluster"
+      cluster.name: "searchengine-cluster{{ cluster_id | default(omit) }}"
       cluster.initial_master_nodes: "{{ elasticsearch_nodes | join(',') }}"
       http.host: 0.0.0.0
       #http.port: 9200
@@ -134,8 +158,8 @@
       xpack.security.http.ssl.keystore.password: "{{ ca_password }}"
       xpack.security.transport.ssl.enabled: "true"
       xpack.security.transport.ssl.verification_mode: "certificate"
-      xpack.security.transport.ssl.keystore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
-      xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
+      xpack.security.transport.ssl.keystore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}/searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}.p12"
+      xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}/searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}.p12"
       xpack.security.transport.ssl.keystore.password: "{{ keystore_password }}"
       xpack.security.transport.ssl.truststore.password: "{{ keystore_password }}"
       cluster.routing.allocation.disk.watermark.low: "90%"
@@ -143,18 +167,19 @@
       cluster.routing.allocation.disk.watermark.flood_stage: "98%"
     #########################################################################
     networks:
-    - name: "searchengine-net"
-      ipv4_address: 10.11.0.2
+    - name: "{{ searchengine_network }}"
+      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + 2 }}
     published_ports:
-      - "9201:9200"
-      - "9301:9300"
+      - "920{{ elasticsearch_published_port_dig | int + 2 }}:9200"
+      - "930{{ elasticsearch_published_port_dig | int + 2 }}:9300"
     state: started
     restart_policy: always
     volumes:
-    - "{{ apps_folder }}/searchengine/elasticsearch/node1/data:/var/lib/elasticsearch"
-    - "{{ apps_folder }}/searchengine/elasticsearch/node1/logs:/var/log/elasticsearch"
+    - "{{ apps_folder }}/searchengine/elasticsearch/node{{ elasticsearch_published_port_dig | int +2 }}/data:/var/lib/elasticsearch"
+    - "{{ apps_folder }}/searchengine/elasticsearch/node{{ elasticsearch_published_port_dig | int +2 }}/logs:/var/log/elasticsearch"
     - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
+
   when: not container_info_elasticsearch_node1.exists and  elasticsearch_no_nodes >1
 
 
@@ -162,7 +187,7 @@
   become: yes
   community.docker.docker_container:
     image: "{{ search_engineelasticsearch_docker_image }}"
-    name: "searchengine_elasticsearch_node1"
+    name:  "searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}"
     cleanup: True
     ulimits:
       'memlock:-1:-1'
@@ -170,10 +195,10 @@
       path.data: "/var/lib/elasticsearch"
       path.logs: "/var/log/elasticsearch"
       path.repo: "{{ elasticsearch_backup_folder }}"
-      node.name: searchengine_elasticsearch_node1
+      node.name: "searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}"
       bootstrap.memory_lock: "true"
       network.host: 0.0.0.0
-      cluster.name: "searchengine-cluster"
+      cluster.name: "searchengine-cluster{{ cluster_id | default(omit)}}"
       # cluster.initial_master_nodes: "{{ elasticsearch_nodes | join(',') }}"
       http.host: 0.0.0.0
       #http.port: 9200
@@ -196,8 +221,8 @@
       xpack.security.http.ssl.keystore.password: "{{ ca_password }}"
       xpack.security.transport.ssl.enabled: "true"
       xpack.security.transport.ssl.verification_mode: "certificate"
-      xpack.security.transport.ssl.keystore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
-      xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node1/searchengine_elasticsearch_node1.p12"
+      xpack.security.transport.ssl.keystore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}/searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}.p12"
+      xpack.security.transport.ssl.truststore.path: "/usr/share/elasticsearch/config/certificates/searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}/searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}.p12"
       xpack.security.transport.ssl.keystore.password: "{{ keystore_password }}"
       xpack.security.transport.ssl.truststore.password: "{{ keystore_password }}"
       cluster.routing.allocation.disk.watermark.low: "90%"
@@ -205,16 +230,16 @@
       cluster.routing.allocation.disk.watermark.flood_stage: "98%"
     #########################################################################
     networks:
-    - name: "searchengine-net"
-      ipv4_address: 10.11.0.2
+    - name: "{{ searchengine_network }}"
+      ipv4_address: 10.11.0.{{ elasticsearch_published_port_dig | int + 2 }}
     published_ports:
-      - "9201:9200"
-      - "9301:9300"
+      - "920{{ elasticsearch_published_port_dig | int + 2 }}:9200"
+      - "930{{ elasticsearch_published_port_dig | int + 2 }}:9300"
     state: started
     restart_policy: always
     volumes:
-    - "{{ apps_folder }}/searchengine/elasticsearch/node1/data:/var/lib/elasticsearch"
-    - "{{ apps_folder }}/searchengine/elasticsearch/node1/logs:/var/log/elasticsearch"
+    - "{{ apps_folder }}/searchengine/elasticsearch/node{{ elasticsearch_published_port_dig | int +2 }}/data:/var/lib/elasticsearch"
+    - "{{ apps_folder }}/searchengine/elasticsearch/node{{ elasticsearch_published_port_dig | int +2 }}/logs:/var/log/elasticsearch"
     - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
   when: not container_info_elasticsearch_node1.exists and elasticsearch_no_nodes == 1
@@ -247,8 +272,8 @@
       node.name: "searchengine_elasticsearch_node{{ item }}"
       bootstrap.memory_lock: "true"
       network.host: 0.0.0.0
-      cluster.name: "searchengine-cluster"
-      discovery.seed_hosts: "searchengine_elasticsearch_node1"
+      cluster.name: "searchengine-cluster{{ cluster_id | default(omit) }}"
+      discovery.seed_hosts: "searchengine_elasticsearch_node{{ elasticsearch_published_port_dig | int +2 }}"
       cluster.initial_master_nodes: "{{ elasticsearch_nodes | join(',') }}"
       http.host: 0.0.0.0
       #http.port: 9200
@@ -279,8 +304,8 @@
       ####################################################################
 
     networks:
-    - name: "searchengine-net"
-      ipv4_address: 10.11.0.{{ item | int + 1 }}
+    - name: "{{ searchengine_network }}"
+      ipv4_address: 10.11.0.{{ item }}
     published_ports:
       - "920{{ item }}:9200"
       - "930{{ item }}:9300"
@@ -291,5 +316,5 @@
     - "{{ apps_folder }}/searchengine/elasticsearch/node{{ item }}/logs:/var/log/elasticsearch"
     - "{{ elasticsearch_backup_folder }}:{{ elasticsearch_backup_folder }}"
     - "{{ apps_folder }}/searchengine/elasticsearch/certs:/usr/share/elasticsearch/config/certificates"
-  with_sequence: start=2 count={{ elasticsearch_no_nodes | int -1 }}
+  with_sequence: start={{ elasticsearch_published_port_dig | int +3 }} count={{ (elasticsearch_no_nodes) | int -1 }}
   when: not container_info_elasticsearch_node1.exists

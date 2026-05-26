@@ -106,7 +106,7 @@ Both of them should have the same output message, i.e.
 
 The following command verifies that the Elasticsearch cluster is running and that the search engine can connect to it.
 
-    curl -I  -k -u "elastic:mypassword" https://127.0.0.1:9201/image_keyvalue_pair_metadata_1
+    curl -I  -k -u "elastic:mypassword" https://127.0.0.1:9202/image_keyvalue_pair_metadata_1
 
 The output of the command should be;
 

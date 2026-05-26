@@ -39,12 +39,15 @@ force_update: false
 dump_output_format: "json"
 max_page_size: 10000
 support_async: true
-image_url: ""
-image_webclient_url: ""
-thumb_url: ""
+image_url: "url/to/image"
+image_webclient_url: "url/to/image/in//webclient"
+thumb_url: "utl/to/thumb"
+searchengine_published_port: 5577
+elasticsearch_published_port_dig: 0
+searchengine_network: searchengine-net
 search_container_names:
-  - searchengine
-  - searchengine-nginx-container
-  - searchengine-redis-container
-  - searchengine_celery
-  - searchengine_celery_beat
+  - "searchengine{{ cluster_id | default(omit) }}"
+  - "searchengine-nginx-container{{ cluster_id | default(omit) }}"
+  - "searchengine-redis-container{{ cluster_id | default(omit) }}"
+  - "searchengine_celery{{ cluster_id | default(omit) }}"
+  - "searchengine_celery_beat{{ cluster_id | default(omit) }}"
