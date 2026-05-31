@@ -77,13 +77,26 @@ The role can also be used for:
 - Backup the Elasticsearch data
 
       ansible-playbook install_searchengine.yml  --tags "backup"
+
+- Index container/s
+
+      ansible-playbook install_searchengine.yml  --tags "index_container"
+ 
+- delete datasource 
+
+      ansible-playbook install_searchengine.yml  --tags "delete_container" 
+
+- Update datasource cache
+
+      ansible-playbook install_searchengine.yml  --tags "update_cache"
+ 
 - Restore the Elasticsearch data
 
       ansible-playbook install_searchengine.yml  --tags "restore"
-- Dump the screens data:
+- Dump the screens'1 data:
 
       ansible-playbook install_searchengine.yml  --tags "dump_screens"
-- Dump the the projects data:
+- Dump the projects' data:
 
       ansible-playbook install_searchengine.yml  --tags "dump_projects"
 

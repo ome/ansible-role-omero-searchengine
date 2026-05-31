@@ -51,3 +51,10 @@ search_container_names:
   - "searchengine-redis-container{{ cluster_id | default(omit) }}"
   - "searchengine_celery{{ cluster_id | default(omit) }}"
   - "searchengine_celery_beat{{ cluster_id | default(omit) }}"
+
+# the following two variables will be used to index container/s
+# use should set container type, i.e. screen or project
+# ids for the containers, if more than one, it will be separated by ','
+container_type: ""
+ids: 0
+synchronous_run: True

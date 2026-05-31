@@ -378,3 +378,16 @@
 - name: omero searchengine | dump screens
   ansible.builtin.import_tasks: tags/dump_screens.yml
   tags: [never, dump_screens]
+
+- name: omero searchengine | index containers
+  ansible.builtin.import_tasks: tags/index_container.yml
+  tags: [never, index_container]
+
+- name: omero searchengine | update cache
+  ansible.builtin.import_tasks: tags/update_cache.yml
+  tags: [ never, update_cache ]
+
+- name: omero searchengine | delete container
+  ansible.builtin.import_tasks: tags/delete_container.yml
+  tags: [ never, delete_container ]
+
