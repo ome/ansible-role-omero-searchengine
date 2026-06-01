@@ -4,7 +4,7 @@
     image: "{{ searchengine_docker_image }}"
     name: "dump_projects_{{ dump_output_format }}{{ cluster_id | default(omit) }}"
     cleanup: True
-    command: "update_data_source_cache -d {{ default_datasource }}
+    command: "update_data_source_cache -d {{ default_datasource }}"
     networks:
       - name: "{{ searchengine_network }}"
     state: started
