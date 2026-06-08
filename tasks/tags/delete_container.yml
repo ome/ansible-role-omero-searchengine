@@ -1,0 +1,16 @@
+- name: omero searchengine | index containers
+  become: yes
+  community.docker.docker_container:
+    image: "{{ searchengine_docker_image }}"
+    name: "delete_container_{{ container_type | default(omit) }}"
+    cleanup: True
+    command: "delete_containers -s {{ default_datasource }} -r {{ container_type }}  -d {{ synchronous_run }} -i {{ ids }}"
+    networks:
+      - name: "{{ searchengine_network }}"
+    #restart: "{{ searchengine_conf_status | changed }}"
+    state: started
+    volumes:
+      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
+      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
+      - "{{ apps_folder }}/data_dump:{{ apps_folder }}/data_dump"

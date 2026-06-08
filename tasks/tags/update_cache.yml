@@ -1,0 +1,15 @@
+- name: omero searchengine | update searchengine cache
+  become: yes
+  community.docker.docker_container:
+    image: "{{ searchengine_docker_image }}"
+    name: "update_cache"
+    cleanup: True
+    command: "update_data_source_cache -d {{ default_datasource }}"
+    networks:
+      - name: "{{ searchengine_network }}"
+    state: started
+    volumes:
+      - "{{ apps_folder }}/searchengine/searchengine/:/etc/searchengine/"
+      - "{{ apps_folder }}/searchengine/searchengine/cachedata:/etc/searchengine/cachedata"
+      - "{{ apps_folder }}/searchengine/searchengine/logs/:/opt/app-root/src/logs/"
+      - "{{ apps_folder }}/data_dump:{{ apps_folder }}/data_dump"
