@@ -71,7 +71,9 @@
     var: check_ca_file_result
   when: not container_info_elasticsearch_node1.exists
 
-- copy:
+- name: copy the file
+  become: true
+  copy:
       dest: /tmp/instances.yaml
       content: |
         {{ instances   |to_nice_yaml }}

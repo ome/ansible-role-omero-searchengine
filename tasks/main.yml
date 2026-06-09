@@ -44,6 +44,7 @@
     name: ome.docker
 
 - name: omero searchengine | Get Docker information
+  become: true
   community.docker.docker_host_info:
     containers: true
     containers_all: true
